@@ -1,0 +1,717 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Shifa Hospital</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: dark petrol rail on the inline-start edge, light work surface, role colour re-tints the whole device.
+   Signature element: the thermal receipt slip, drawn at true 80/58mm proportions. */
+:root{
+  --bg:#EEF3F4; --surface:#FFFFFF; --surface2:#F6F9F9; --ink:#10262B; --muted:#5A7075; --line:#D9E3E5;
+  --side:#0B2A2F; --side-ink:#CFE3E5; --side-mute:#7FA0A5;
+  --role:#0F6670; --role-soft:#DDF0F1; --ok:#1B8A57; --ok-soft:#DDF3E8; --warn:#B87A0B; --warn-soft:#FBEFD2; --bad:#C93B52; --bad-soft:#FBE1E5;
+  --paper:#FFFDF8; --paper-ink:#141414; --shadow:0 1px 2px rgba(16,38,43,.06),0 8px 24px rgba(16,38,43,.06);
+  --f:'IBM Plex Sans Arabic','Segoe UI',Tahoma,system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#081315; --surface:#0F1F22; --surface2:#132628; --ink:#E4F0F1; --muted:#8FA9AD; --line:#1F3538;
+  --side:#06191C; --side-ink:#CFE3E5; --side-mute:#6F9196; --role-soft:#10353A; --ok-soft:#10301F; --warn-soft:#33270A; --bad-soft:#3A1219; --shadow:none; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#081315; --surface:#0F1F22; --surface2:#132628; --ink:#E4F0F1; --muted:#8FA9AD; --line:#1F3538;
+  --side:#06191C; --side-ink:#CFE3E5; --side-mute:#6F9196; --role-soft:#10353A; --ok-soft:#10301F; --warn-soft:#33270A; --bad-soft:#3A1219; --shadow:none; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f);font-size:14px;line-height:1.55;padding-left:max(0px,env(safe-area-inset-left,0px));padding-right:max(0px,env(safe-area-inset-right,0px))}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--role);outline-offset:2px}
+.num,td.n,.mono{font-variant-numeric:tabular-nums;font-family:var(--mono);font-size:.94em}
+.ic{flex:none}
+#app[data-role="reception"]{--role:#0F6670;--role-soft:#DDF0F1}
+#app[data-role="lab"]{--role:#5846B8;--role-soft:#E6E2F8}
+#app[data-role="pharmacy"]{--role:#2B8A4B;--role-soft:#DDF2E3}
+#app[data-role="admin"]{--role:#A9641A;--role-soft:#F7E8D3}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #app[data-role="lab"]{--role:#9C8CF0;--role-soft:#241F4A}
+:root:not([data-theme="light"]) #app[data-role="pharmacy"]{--role:#5CC47E;--role-soft:#143522}
+:root:not([data-theme="light"]) #app[data-role="admin"]{--role:#E0A053;--role-soft:#3A2810}
+:root:not([data-theme="light"]) #app[data-role="reception"]{--role:#4FC1CC;--role-soft:#0F3A3F}}
+:root[data-theme="dark"] #app[data-role="lab"]{--role:#9C8CF0;--role-soft:#241F4A}
+:root[data-theme="dark"] #app[data-role="pharmacy"]{--role:#5CC47E;--role-soft:#143522}
+:root[data-theme="dark"] #app[data-role="admin"]{--role:#E0A053;--role-soft:#3A2810}
+:root[data-theme="dark"] #app[data-role="reception"]{--role:#4FC1CC;--role-soft:#0F3A3F}
+
+/* shell */
+.shell{display:grid;grid-template-columns:236px minmax(0,1fr);min-height:100%}
+.side{background:var(--side);color:var(--side-ink);display:flex;flex-direction:column;gap:6px;padding:18px 12px;position:sticky;top:0;height:100vh;height:100dvh;overflow:auto}
+.brand{display:flex;align-items:center;gap:10px;padding:2px 8px 16px;font-weight:700;font-size:18px;color:#fff}
+.brand i{width:34px;height:34px;border-radius:10px;background:var(--role);display:grid;place-items:center;color:#fff;font-style:normal}
+.dev{margin:0 8px 14px;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,.06);font-size:12px;color:var(--side-mute)}
+.dev b{display:block;color:#fff;font-size:14px;font-weight:600}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav button{display:flex;align-items:center;gap:10px;background:none;border:0;color:var(--side-ink);padding:10px 12px;border-radius:10px;cursor:pointer;text-align:start;font-weight:500}
+.nav button:hover{background:rgba(255,255,255,.07)}
+.nav button[aria-current="page"]{background:var(--role);color:#fff}
+.side .foot{margin-top:auto;display:flex;flex-direction:column;gap:2px}
+.side .foot button{display:flex;align-items:center;gap:10px;background:none;border:0;color:var(--side-mute);padding:9px 12px;border-radius:10px;cursor:pointer;text-align:start}
+.side .foot button:hover{background:rgba(255,255,255,.07);color:#fff}
+.main{min-width:0;display:flex;flex-direction:column}
+.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:14px 24px;border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:5}
+.top h1{font-size:19px;margin:0;font-weight:700;margin-inline-end:auto}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:500;background:var(--role-soft);color:var(--role);white-space:nowrap}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}.pill.warn{background:var(--warn-soft);color:var(--warn)}.pill.bad{background:var(--bad-soft);color:var(--bad)}.pill.mute{background:var(--surface2);color:var(--muted);border:1px solid var(--line)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ok);display:inline-block}
+.content{padding:22px 24px 40px;display:flex;flex-direction:column;gap:18px}
+.msg{color:var(--muted);margin:0}
+
+/* controls */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--line);background:var(--surface);padding:8px 14px;border-radius:10px;cursor:pointer;font-weight:600;white-space:nowrap}
+.btn:hover{border-color:var(--role)}
+.btn.pri{background:var(--role);border-color:var(--role);color:#fff}
+.btn.pri:hover{filter:brightness(1.08)}
+.btn.bad{color:var(--bad)}
+.btn.sm{padding:4px 10px;font-size:12.5px;border-radius:8px}
+.btn.lg{padding:12px 18px;font-size:15px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.ib{width:30px;height:30px;padding:0;display:inline-grid;place-items:center;border-radius:8px;border:1px solid var(--line);background:var(--surface);cursor:pointer}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field label{font-size:12.5px;color:var(--muted);font-weight:500}
+.inp,select.inp{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:9px 11px;width:100%;min-width:0}
+.inp:focus{border-color:var(--role);outline:2px solid var(--role-soft)}
+.search{position:relative}
+.search .ic{position:absolute;inset-inline-start:11px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.search .inp{padding-inline-start:36px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.grow{flex:1 1 auto;min-width:0}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+.seg button{border:0;background:none;padding:7px 14px;cursor:pointer;font-weight:500;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--role);color:#fff}
+
+/* panels */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);min-width:0}
+.card>header{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line);font-weight:700}
+.card>header .sub{font-weight:400;color:var(--muted);font-size:12.5px;margin-inline-start:auto}
+.card .body{padding:16px;display:flex;flex-direction:column;gap:12px}
+.cols{display:grid;gap:18px;align-items:start}
+.c3{grid-template-columns:minmax(0,.9fr) minmax(0,1.25fr) minmax(300px,.95fr)}
+.c2{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}
+.c2b{grid-template-columns:minmax(300px,.8fr) minmax(0,1.4fr)}
+.sumline{display:flex;gap:28px;flex-wrap:wrap;padding:2px 2px 0}
+.sumline div{display:flex;flex-direction:column}
+.sumline b{font-size:24px;font-weight:700;line-height:1.2}
+.sumline span{color:var(--muted);font-size:12.5px}
+.tbl-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%}
+th{font-weight:600;color:var(--muted);font-size:12.5px;text-align:start;padding:9px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:end}
+tr.sel td{background:var(--role-soft)}
+tr.clk{cursor:pointer}
+tr.clk:hover td{background:var(--surface2)}
+.list{display:flex;flex-direction:column}
+.item{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);cursor:pointer;background:none;border-inline:0;border-top:0;width:100%;text-align:start}
+.item:last-child{border-bottom:0}
+.item:hover{background:var(--surface2)}
+.item.sel{background:var(--role-soft)}
+.item .meta{color:var(--muted);font-size:12.5px}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--role-soft);color:var(--role);display:grid;place-items:center;font-weight:700;flex:none}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.tile{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:12px;text-align:start;cursor:pointer;display:flex;flex-direction:column;gap:3px}
+.tile:hover{border-color:var(--role)}
+.tile[aria-pressed="true"]{border-color:var(--role);background:var(--role-soft);outline:1px solid var(--role)}
+.tile b{font-weight:600}.tile small{color:var(--muted);font-size:12px}
+.svc{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);cursor:pointer;text-align:start;width:100%}
+.svc:hover{border-color:var(--role)}
+.svc .p{margin-inline-start:auto;font-weight:600}
+.bars{display:flex;flex-direction:column;gap:10px}
+.bar{display:grid;grid-template-columns:110px minmax(0,1fr) 92px;gap:10px;align-items:center}
+.bar .t{height:12px;border-radius:6px;background:var(--surface2);overflow:hidden}
+.bar .t i{display:block;height:100%;background:var(--role);border-radius:6px}
+.fl{font-weight:700;padding:1px 7px;border-radius:6px;font-size:12px}
+.fl.H,.fl.A{background:var(--bad-soft);color:var(--bad)}.fl.L{background:var(--warn-soft);color:var(--warn)}.fl.N{background:var(--ok-soft);color:var(--ok)}
+.mat td,.mat th{text-align:center}.mat td:first-child,.mat th:first-child{text-align:start}
+.chk{width:18px;height:18px;accent-color:var(--role)}
+.empty{padding:28px 16px;text-align:center;color:var(--muted)}
+.confirm{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:12px 14px;border-radius:12px;background:var(--warn-soft);color:var(--ink)}
+
+/* thermal slip */
+.slips{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;align-items:flex-start}
+.slip{background:var(--paper);color:var(--paper-ink);width:290px;max-width:100%;padding:16px 16px 26px;font-size:12.5px;line-height:1.5;box-shadow:0 2px 10px rgba(0,0,0,.18);
+  -webkit-mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/12px 100%;mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/12px 100%}
+.slip.w58{width:224px}
+.slip .h{text-align:center;font-size:11px;letter-spacing:.02em;color:#555}
+.slip .big{text-align:center;font-size:21px;font-weight:700;line-height:1.25;margin:6px 0 2px}
+.slip .sub{text-align:center;font-size:12px;color:#444}
+.slip hr{border:0;border-top:1.5px dashed #888;margin:9px 0}
+.slip .m{display:flex;justify-content:space-between;gap:8px;font-family:var(--mono);font-size:11.5px}
+.slip .r{display:flex;justify-content:space-between;gap:10px;padding:1px 0}
+.slip .tot{display:flex;justify-content:space-between;font-weight:700;font-size:16px}
+.slip .ft{text-align:center;color:#555;font-size:11px;margin-top:8px}
+.paper{background:var(--paper);color:var(--paper-ink);padding:28px;border-radius:6px;box-shadow:0 2px 12px rgba(0,0,0,.2);width:min(640px,100%)}
+.paper h2{margin:0;font-size:20px}.paper table td,.paper table th{color:var(--paper-ink);border-color:#d8d4c8;padding:7px 8px}.paper th{color:#555}
+
+/* modal + toast */
+.ov{position:fixed;inset:0;background:rgba(5,16,18,.62);display:grid;place-items:start center;padding:32px 16px;overflow:auto;z-index:50}
+.modal{width:min(900px,100%);background:var(--surface);border-radius:16px;border:1px solid var(--line);display:flex;flex-direction:column;gap:0}
+.modal>header{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line);font-weight:700}
+.modal .mb{padding:22px 18px;display:flex;flex-direction:column;gap:18px;align-items:center;background:var(--surface2);border-radius:0 0 16px 16px}
+.toast{position:fixed;inset-inline:0;bottom:calc(18px + env(safe-area-inset-bottom,0px));display:flex;justify-content:center;pointer-events:none;z-index:60}
+.toast span{background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.25);max-width:90vw}
+
+/* login */
+.login{min-height:100vh;display:flex;flex-direction:column;align-items:center;gap:28px;padding:48px max(16px,env(safe-area-inset-left,0px)) 40px;background:
+  radial-gradient(1200px 500px at 50% -10%,var(--role-soft),transparent 70%),var(--bg)}
+.login .logo{display:flex;align-items:center;gap:14px;font-size:38px;font-weight:700}
+.login .logo i{width:56px;height:56px;border-radius:16px;background:#0F6670;color:#fff;display:grid;place-items:center;font-style:normal}
+.devs{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;width:min(1080px,100%)}
+.devc{--c:var(--role);text-align:start;border:1px solid var(--line);background:var(--surface);border-radius:18px;padding:20px;cursor:pointer;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.devc:hover{border-color:var(--c);transform:translateY(-2px)}
+.devc .top2{display:flex;justify-content:space-between;align-items:center}
+.devc .ico{width:46px;height:46px;border-radius:13px;background:var(--c);color:#fff;display:grid;place-items:center}
+.devc h3{margin:0;font-size:19px}.devc p{margin:0;color:var(--muted);font-size:13px}
+.devc .who{margin-top:auto;padding-top:10px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--muted)}
+.tools{display:flex;gap:8px}
+@media (max-width:980px){
+  .shell{grid-template-columns:1fr}
+  .side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;padding:10px 12px}
+  .brand{padding:0 6px 0 0}.dev{display:none}.nav{flex-direction:row;flex-wrap:wrap}.side .foot{margin:0;flex-direction:row}
+  .c3,.c2,.c2b{grid-template-columns:minmax(0,1fr)}
+  .top,.content{padding-inline:16px}
+  .bar{grid-template-columns:84px minmax(0,1fr) 78px}
+}
+@media (prefers-reduced-motion:no-preference){.devc{transition:transform .15s,border-color .15s}}
+</style>
+<div id="app"></div>
+<div class="toast" id="toast" aria-live="polite"></div>
+<script>
+"use strict";
+/* ---------- helpers ---------- */
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Math.random().toString(36).slice(2,9);
+const ICONS={
+ user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',
+ users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.5 3-5.5 6.5-5.5s6.5 2 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c2 .6 3.5 2.2 3.5 5.2"/>',
+ flask:'<path d="M9 3h6M10 3v6L4.5 19a1.5 1.5 0 0 0 1.3 2h12.4a1.5 1.5 0 0 0 1.3-2L14 9V3"/><path d="M7.5 15h9"/>',
+ pill:'<path d="M10.5 20.5a5 5 0 0 1-7-7l10-10a5 5 0 0 1 7 7z"/><path d="m8.5 8.5 7 7"/>',
+ shield:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="m9 12 2 2 4-4"/>',
+ clipboard:'<rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4h6v3H9zM9 12h6M9 16h4"/>',
+ receipt:'<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/>',
+ cash:'<rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/>',
+ list:'<path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/>',
+ cart:'<circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h2.5l2.3 11h10.2L20 8H7"/>',
+ box:'<path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5 12 12l9-4.5M12 12v9"/>',
+ truck:'<path d="M2 6h11v10H2zM13 9h4l4 4v3h-8"/><circle cx="6.5" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>',
+ chart:'<path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/>',
+ clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+ tag:'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1"/>',
+ gear:'<path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/>',
+ plus:'<path d="M12 5v14M5 12h14"/>',minus:'<path d="M5 12h14"/>',
+ search:'<circle cx="11" cy="11" r="6.5"/><path d="m20 20-4-4"/>',
+ check:'<path d="m5 12 5 5 9-10"/>',
+ x:'<path d="M6 6l12 12M18 6 6 18"/>',
+ printer:'<path d="M7 9V3h10v6M7 17H4v-7h16v7h-3"/><rect x="7" y="14" width="10" height="7"/>',
+ logout:'<path d="M10 4H5v16h5M15 8l4 4-4 4M19 12H9"/>',
+ moon:'<path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/>',
+ globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',
+ trash:'<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>',
+ flag:'<path d="M5 21V4h11l-2 4 2 4H5"/>',
+ tooth:'<path d="M7 3c-3 0-4 3-3.5 6 .5 3 1.5 4 2 8 .3 2.500 1.700 4 2.500 2.500.8-1.500.7-4 3-4s2.200 2.500 3 4c.8 1.500 2.200 0 2.500-2.500.5-4 1.500-5 2-8C21 6 20 3 17 3c-2 0-3 1-5 1S9 3 7 3z"/>'
+};
+const ic=(n,s=18)=>`<svg class="ic" width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n]||''}</svg>`;
+
+/* ---------- master data ---------- */
+const CUR={SDG:['ج.س','SDG'],EGP:['ج.م','EGP'],SAR:['ر.س','SAR']};
+const DEPTS={
+ general:{ar:'عمومي',en:'General',receipt:'dept',duty:false},
+ specialist:{ar:'أخصائي',en:'Specialist',receipt:'doctor',duty:true},
+ internal:{ar:'استشارة باطنية',en:'Internal medicine',receipt:'doctor',duty:true},
+ icu:{ar:'الإنعاش',en:'ICU / Emergency',receipt:'dept',duty:true},
+ minor:{ar:'العمليات الصغيرة',en:'Minor procedures',receipt:'dept',duty:true},
+ dental:{ar:'عيادة الأسنان',en:'Dental clinic',receipt:'doctor',duty:true}
+};
+const REVDEPT={...DEPTS,lab:{ar:'المعمل',en:'Laboratory'},pharmacy:{ar:'الصيدلية',en:'Pharmacy'}};
+const ROLES={
+ reception:{ar:'الاستقبال',en:'Reception',dev:1,icon:'clipboard',color:'#0F6670',
+  d:['تسجيل المريض وتحويله للعيادة، التحصيل، طباعة الإيصالات، وإغلاق الوردية.','Registers patients, routes them to clinics, collects payment, prints receipts, closes the shift.']},
+ lab:{ar:'المعمل',en:'Laboratory',dev:2,icon:'flask',color:'#5846B8',
+  d:['يستقبل أسماء الفحوصات من الاستقبال، يدخل النتائج ويطبع التقرير.','Receives test names from reception, enters results, prints the report.']},
+ pharmacy:{ar:'الصيدلية',en:'Pharmacy',dev:3,icon:'pill',color:'#2B8A4B',
+  d:['بيع الأدوية، المشتريات من الموردين، المخزون والصلاحيات.','Sells medicines, purchases from suppliers, stock and expiry.']},
+ admin:{ar:'الإدارة والكنترول',en:'Control & management',dev:4,icon:'shield',color:'#A9641A',
+  d:['النوبتجية، نسب العاملين وتسوية الوردية، الأسعار، الصلاحيات والتقارير.','On-duty roster, staff shares and shift settlement, prices, permissions, reports.']}
+};
+const PERMS=[
+ ['visits.create',['إنشاء زيارة وتحصيل','Create visits & collect']],['visits.view',['عرض زيارات الوردية','View shift visits']],['shift.close',['إغلاق الوردية','Close shift']],
+ ['lab.view',['عرض الفحوصات','View lab orders']],['lab.enter',['إدخال النتائج','Enter results']],['lab.print',['طباعة التقرير','Print report']],['lab.deliver',['تسليم النتيجة','Deliver result']],
+ ['pharmacy.sell',['بيع الأدوية','Sell medicines']],['pharmacy.stock',['عرض المخزون','View stock']],['pharmacy.purchase',['فواتير الشراء','Purchase invoices']],
+ ['reports.view',['لوحة التقارير','Dashboard & reports']],['prices.edit',['تعديل الأسعار والنسب','Edit prices & shares']],['users.manage',['النوبتجية والصلاحيات','Roster & permissions']],['discounts.apply',['منح خصم','Give discounts']]
+];
+const DEFPERMS={
+ reception:['visits.create','visits.view','shift.close'],
+ lab:['lab.view','lab.enter','lab.print','lab.deliver'],
+ pharmacy:['pharmacy.sell','pharmacy.stock','pharmacy.purchase','discounts.apply'],
+ admin:PERMS.map(p=>p[0])
+};
+const NAV={
+ reception:[['visit','clipboard',['زيارة جديدة','New visit'],'visits.create'],['queue','receipt',['زيارات الوردية','Shift visits'],'visits.view'],['shift','cash',['الوردية','Shift'],'shift.close']],
+ lab:[['orders','flask',['الفحوصات','Lab orders'],'lab.view'],['catalog','list',['دليل الفحوصات','Test catalog'],'lab.view']],
+ pharmacy:[['pos','cart',['بيع','Sell'],'pharmacy.sell'],['stock','box',['المخزون','Stock'],'pharmacy.stock'],['purchases','truck',['المشتريات','Purchases'],'pharmacy.purchase'],['sales','receipt',['سجل المبيعات','Sales log'],'pharmacy.sell']],
+ admin:[['dash','chart',['لوحة التحكم','Overview'],'reports.view'],['roster','clock',['النوبتجية','On duty'],'users.manage'],['settle','cash',['تسوية الوردية','Shift settlement'],'shift.close'],['services','tag',['الخدمات والنسب','Services & shares'],'prices.edit'],['users','shield',['الصلاحيات','Permissions'],'users.manage'],['reports','chart',['التقارير','Reports'],'reports.view'],['settings','gear',['الإعدادات','Settings'],'users.manage']]
+};
+const TESTS=[
+ {id:'cbc',ar:'صورة دم كاملة CBC',en:'Complete blood count (CBC)',price:150,p:[
+  {k:'wbc',ar:'كريات الدم البيضاء',en:'WBC',u:'10³/µL',lo:4,hi:11},{k:'rbc',ar:'كريات الدم الحمراء',en:'RBC',u:'10⁶/µL',lo:4.2,hi:5.9},
+  {k:'hb',ar:'الهيموجلوبين',en:'Hemoglobin',u:'g/dL',lo:12,hi:17},{k:'hct',ar:'الهيماتوكريت',en:'HCT',u:'%',lo:36,hi:50},{k:'plt',ar:'الصفائح الدموية',en:'Platelets',u:'10³/µL',lo:150,hi:450}]},
+ {id:'typ',ar:'تحليل التيفود',en:'Typhoid (Widal)',price:120,p:[
+  {k:'o',ar:'Widal O',en:'Widal O',opts:['Negative','1:40','1:80','1:160','1:320'],nl:['Negative','1:40']},
+  {k:'h',ar:'Widal H',en:'Widal H',opts:['Negative','1:40','1:80','1:160','1:320'],nl:['Negative','1:40']},
+  {k:'igm',ar:'Salmonella IgM',en:'Salmonella IgM',opts:['Negative','Positive'],nl:['Negative']}]},
+ {id:'mal',ar:'فيلم الملاريا',en:'Malaria film',price:80,p:[{k:'f',ar:'النتيجة',en:'Result',opts:['Negative','P. falciparum +','P. falciparum ++','P. falciparum +++','P. vivax'],nl:['Negative']}]},
+ {id:'glu',ar:'سكر عشوائي',en:'Random blood glucose',price:50,p:[{k:'g',ar:'الجلوكوز',en:'Glucose',u:'mg/dL',lo:70,hi:140}]},
+ {id:'urn',ar:'تحليل بول عام',en:'Urine routine',price:60,p:[
+  {k:'ph',ar:'الحموضة pH',en:'pH',u:'',lo:5,hi:8},{k:'pr',ar:'بروتين',en:'Protein',opts:['Negative','Trace','+','++'],nl:['Negative','Trace']},
+  {k:'pus',ar:'خلايا صديد',en:'Pus cells',u:'/HPF',lo:0,hi:5},{k:'rb',ar:'كريات حمراء',en:'RBCs',u:'/HPF',lo:0,hi:2}]},
+ {id:'lft',ar:'وظائف الكبد',en:'Liver function',price:200,p:[
+  {k:'alt',ar:'ALT',en:'ALT',u:'U/L',lo:7,hi:56},{k:'ast',ar:'AST',en:'AST',u:'U/L',lo:10,hi:40},{k:'alp',ar:'ALP',en:'ALP',u:'U/L',lo:44,hi:147},{k:'bil',ar:'بيليروبين كلي',en:'Total bilirubin',u:'mg/dL',lo:.1,hi:1.2}]},
+ {id:'cre',ar:'وظائف الكلى',en:'Kidney function',price:100,p:[{k:'cr',ar:'كرياتينين',en:'Creatinine',u:'mg/dL',lo:.6,hi:1.3},{k:'ur',ar:'يوريا',en:'Urea',u:'mg/dL',lo:15,hi:45}]},
+ {id:'hbs',ar:'فيروس B السطحي',en:'HBsAg',price:130,p:[{k:'r',ar:'النتيجة',en:'Result',opts:['Negative','Positive'],nl:['Negative']}]}
+];
+const SERVICES=[
+ {id:'g1',dept:'general',ar:'كشف عمومي',en:'General consultation',price:100,pct:0},
+ {id:'s1',dept:'specialist',ar:'كشف أخصائي',en:'Specialist consultation',price:300,pct:60},
+ {id:'s2',dept:'specialist',ar:'إعادة كشف',en:'Follow-up visit',price:150,pct:60},
+ {id:'i1',dept:'internal',ar:'استشارة باطنية',en:'Internal medicine consult',price:250,pct:50},
+ {id:'c1',dept:'icu',ar:'دخول إنعاش (ساعة)',en:'ICU stay (per hour)',price:400,pct:12},
+ {id:'c2',dept:'icu',ar:'جلسة نبولايزر',en:'Nebulizer session',price:120,pct:15},
+ {id:'c3',dept:'icu',ar:'محلول وريدي',en:'IV fluids',price:150,pct:15},
+ {id:'m1',dept:'minor',ar:'نظافة جرح',en:'Wound cleaning',price:150,pct:25},
+ {id:'m2',dept:'minor',ar:'خياطة جرح',en:'Suturing',price:400,pct:20},
+ {id:'m3',dept:'minor',ar:'تغيير غيار',en:'Dressing change',price:100,pct:20},
+ {id:'m4',dept:'minor',ar:'حقنة',en:'Injection',price:50,pct:20},
+ {id:'d1',dept:'dental',ar:'كشف أسنان',en:'Dental exam',price:200,pct:40},
+ {id:'d2',dept:'dental',ar:'حشو',en:'Filling',price:350,pct:40},
+ {id:'d3',dept:'dental',ar:'خلع',en:'Extraction',price:250,pct:40},
+ {id:'d4',dept:'dental',ar:'تنظيف جير',en:'Scaling',price:300,pct:40}
+];
+const STAFF=[
+ {id:'st1',ar:'د. أحمد منصور',en:'Dr. Ahmed Mansour',d:['specialist']},
+ {id:'st2',ar:'د. خالد عثمان',en:'Dr. Khaled Osman',d:['specialist']},
+ {id:'st3',ar:'د. هالة صلاح',en:'Dr. Hala Salah',d:['internal']},
+ {id:'st4',ar:'د. سارة الطيب',en:'Dr. Sara Al-Tayeb',d:['dental']},
+ {id:'st5',ar:'د. ياسر فاروق',en:'Dr. Yasser Farouk',d:['dental']},
+ {id:'st6',ar:'م. يوسف إدريس',en:'Nurse Yousef Idris',d:['icu']},
+ {id:'st7',ar:'م. منى حسن',en:'Nurse Mona Hassan',d:['icu']},
+ {id:'st8',ar:'م. عمر النور',en:'Nurse Omar Al-Nour',d:['minor']},
+ {id:'st9',ar:'م. ريم بشير',en:'Nurse Reem Bashir',d:['minor']}
+];
+const SUPPLIERS=[{id:'sp1',ar:'النيل للأدوية',en:'Nile Pharma'},{id:'sp2',ar:'الشفاء للتوزيع',en:'Al-Shifa Distribution'},{id:'sp3',ar:'دلتا ميديكال',en:'Delta Medical'}];
+
+/* ---------- state ---------- */
+const KEY='shifa-hospital-demo-v1';
+let S, U={role:null,view:null,tab:'pending',modal:null,draft:null,cart:[],labSel:null,filter:'',confirmClose:false,pur:null,pdept:'general',qAll:false,medq:'',stockf:'all',salesq:''};
+const day=n=>new Date(Date.now()+n*864e5).toISOString().slice(0,10);
+function seed(){
+ S={lang:'ar',theme:'auto',cur:'SDG',hospital:{ar:'مستشفى شفاء',en:'Shifa Hospital'},rw:80,shiftNo:12,vno:1040,pno:5200,
+  perms:JSON.parse(JSON.stringify(DEFPERMS)),services:JSON.parse(JSON.stringify(SERVICES)),tests:TESTS.map(t=>({id:t.id,price:t.price})),
+  roster:{specialist:'st1',internal:'st3',icu:'st6',minor:'st8',dental:'st4'},
+  patients:[
+   {id:'P-0001',name:'محمد عبدالله',phone:'0912345678',age:34,g:'m'},{id:'P-0002',name:'فاطمة إبراهيم',phone:'0923456789',age:27,g:'f'},
+   {id:'P-0003',name:'علي حسن',phone:'0901112233',age:8,g:'m'},{id:'P-0004',name:'آمنة يوسف',phone:'0934455667',age:52,g:'f'},
+   {id:'P-0005',name:'عبدالرحمن صالح',phone:'0998877665',age:41,g:'m'},{id:'P-0006',name:'سلمى أحمد',phone:'0911223344',age:19,g:'f'}],
+  visits:[],orders:[],sales:[],purchases:[],shifts:[],log:[],
+  meds:[
+   ['باراسيتامول 500 مجم','Paracetamol 500 mg','أقراص','Tablets',3,1.8,240,60,300],['أموكسيسيلين 500 مجم','Amoxicillin 500 mg','كبسول','Capsules',9,5.5,120,40,200],
+   ['أوجمنتين 1 جم','Augmentin 1 g','أقراص','Tablets',42,30,36,30,150],['إيبوبروفين 400 مجم','Ibuprofen 400 mg','أقراص','Tablets',6,3.2,18,40,25],
+   ['أوميبرازول 20 مجم','Omeprazole 20 mg','كبسول','Capsules',8,4.5,95,30,400],['ميتفورمين 500 مجم','Metformin 500 mg','أقراص','Tablets',7,4,160,50,500],
+   ['أملوديبين 5 مجم','Amlodipine 5 mg','أقراص','Tablets',6,3.5,80,30,360],['سيتريزين 10 مجم','Cetirizine 10 mg','أقراص','Tablets',5,2.6,140,40,260],
+   ['أملاح الجفاف ORS','ORS sachet','كيس','Sachet',4,2.2,12,30,500],['بخاخ سالبيوتامول','Salbutamol inhaler','بخاخ','Inhaler',28,19,22,10,120],
+   ['ديكلوفيناك جل','Diclofenac gel','جل','Gel',18,11,45,15,420],['فيتامين C 1000','Vitamin C 1000','أقراص فوارة','Effervescent',12,7,60,20,28],
+   ['أزيثروميسين 500 مجم','Azithromycin 500 mg','أقراص','Tablets',24,15,52,20,330],['محلول ملحي 500 مل','Normal saline 500 ml','محلول','Solution',15,9,70,40,700]
+  ].map((m,i)=>({id:'md'+i,ar:m[0],en:m[1],fa:m[2],fe:m[3],price:m[4],cost:m[5],stock:m[6],min:m[7],exp:day(m[8]),batch:'B'+(2400+i*7)}))
+ };
+ const mk=(pid,refs,method,minsAgo)=>createVisit(pid,refs,method,Date.now()-minsAgo*6e4,true);
+ mk('P-0001',[{k:'s',id:'g1'},{k:'t',id:'cbc'},{k:'t',id:'typ'}],'cash',190);
+ mk('P-0002',[{k:'s',id:'d1'},{k:'s',id:'d2'}],'cash',165);
+ mk('P-0003',[{k:'s',id:'m1'},{k:'s',id:'m3'}],'cash',140);
+ mk('P-0004',[{k:'s',id:'s1'},{k:'t',id:'glu'},{k:'t',id:'cre'}],'card',112);
+ mk('P-0005',[{k:'s',id:'c2'},{k:'s',id:'c3'}],'cash',80);
+ mk('P-0006',[{k:'s',id:'i1'},{k:'t',id:'mal'}],'cash',44);
+ // two lab orders already reported
+ [0,1,4].forEach((i,n)=>{const o=S.orders[i];if(!o)return;const t=TESTS.find(t=>t.id===o.testId);t.p.forEach(p=>{o.results[p.k]=p.opts?p.nl[0]:+(((p.lo+p.hi)/2)*(n===0&&p.k==='wbc'?1.9:1)).toFixed(1)});o.status=n===2?'delivered':'done';o.doneAt=Date.now()-20*6e4});
+ const sale=(lines,m,ago)=>{S.sales.push({id:uid(),no:++S.pno,lines:lines.map(([id,q])=>{const md=S.meds.find(x=>x.id===id);md.stock-=q;return{medId:id,qty:q,price:md.price}}),disc:0,method:m,time:Date.now()-ago*6e4,shift:S.shiftNo});const s=S.sales.at(-1);s.total=s.lines.reduce((a,l)=>a+l.qty*l.price,0)};
+ sale([['md0',2],['md7',1]],'cash',120);sale([['md2',1],['md12',1]],'cash',70);sale([['md8',4],['md4',2]],'card',30);
+ S.log.push({t:Date.now()-5*6e4,role:'reception',msg:['فُتحت الوردية 12','Shift 12 opened']});
+}
+function load(){try{const j=JSON.parse(localStorage.getItem(KEY)||'null');if(j&&j.v===1)return j.s}catch(e){}return null}
+function save(){try{localStorage.setItem(KEY,JSON.stringify({v:1,s:S}))}catch(e){}}
+
+/* ---------- domain ---------- */
+const x=(a,e)=>S.lang==='ar'?a:e;
+const nm=o=>o?o[S.lang]:'';
+const cur=()=>CUR[S.cur][S.lang==='ar'?0:1];
+const money=n=>`${(Math.round(n*100)/100).toLocaleString('en-US')} ${cur()}`;
+const tm=t=>new Date(t).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+const dt=t=>new Date(t).toLocaleDateString('en-GB');
+const svcOf=id=>S.services.find(s=>s.id===id);
+const testOf=id=>TESTS.find(t=>t.id===id);
+const testPrice=id=>S.tests.find(t=>t.id===id).price;
+const staffOf=id=>STAFF.find(s=>s.id===id);
+const patOf=id=>S.patients.find(p=>p.id===id)||{name:'—',id:'—'};
+const medOf=id=>S.meds.find(m=>m.id===id);
+const can=p=>!!(U.role&&S.perms[U.role].includes(p));
+const log=(ar,en)=>{S.log.unshift({t:Date.now(),role:U.role,msg:[ar,en]});S.log.length=Math.min(S.log.length,40)};
+function createVisit(pid,refs,method,time,silent){
+ const lines=[];const v={id:uid(),no:++S.vno,pid,lines,method,time,shift:S.shiftNo};
+ refs.forEach(r=>{
+  if(r.k==='s'){const s=svcOf(r.id);lines.push({kind:'svc',id:s.id,dept:s.dept,ar:s.ar,en:s.en,price:s.price,pct:s.pct,staff:DEPTS[s.dept].duty?S.roster[s.dept]:null})}
+  else{const t=testOf(r.id);lines.push({kind:'lab',id:t.id,dept:'lab',ar:t.ar,en:t.en,price:testPrice(t.id),pct:0,staff:null});
+   S.orders.push({id:uid(),vid:v.id,pid,testId:t.id,status:'pending',results:{},time})}
+ });
+ v.total=lines.reduce((a,l)=>a+l.price,0);S.visits.push(v);return v;
+}
+function shiftStats(no){
+ const vs=S.visits.filter(v=>v.shift===no),ps=S.sales.filter(s=>s.shift===no);
+ const byDept={},byStaff={};let cash=0,card=0;
+ vs.forEach(v=>{(v.method==='cash'?cash+=v.total:card+=v.total);v.lines.forEach(l=>{byDept[l.dept]=(byDept[l.dept]||0)+l.price;
+  if(l.staff&&l.pct>0){const b=byStaff[l.staff]||(byStaff[l.staff]={base:0,comm:0,n:0});b.base+=l.price;b.comm+=l.price*l.pct/100;b.n++}})});
+ ps.forEach(s=>{(s.method==='cash'?cash+=s.total:card+=s.total);byDept.pharmacy=(byDept.pharmacy||0)+s.total});
+ const total=cash+card,comm=Object.values(byStaff).reduce((a,b)=>a+b.comm,0);
+ return{vs,ps,byDept,byStaff,cash,card,total,comm,net:total-comm,count:vs.length+ps.length};
+}
+function flagOf(p,val){
+ if(val===''||val==null)return'';
+ if(p.opts)return p.nl.includes(val)?'N':'A';
+ const n=parseFloat(val);if(isNaN(n))return'';return n<p.lo?'L':n>p.hi?'H':'N';
+}
+function medState(m){const d=(new Date(m.exp)-Date.now())/864e5;return{low:m.stock<=m.min,exp:d<=90,expired:d<0,days:Math.round(d)}}
+
+/* ---------- views ---------- */
+function slip(o){
+ return `<div class="slip ${S.rw==58?'w58':''}"><div class="h">${esc(nm(S.hospital))}</div><div class="big">${esc(o.big)}</div>${o.sub?`<div class="sub">${esc(o.sub)}</div>`:''}
+ <hr><div class="m"><span>${esc(o.no)}</span><span>${dt(o.time)} ${tm(o.time)}</span></div>${o.pt?`<div class="m"><span>${esc(o.pt)}</span></div>`:''}<hr>
+ ${o.rows.map(r=>`<div class="r"><span>${esc(r[0])}</span><span class="mono">${esc(r[1])}</span></div>`).join('')}<hr>
+ <div class="tot"><span>${x('الإجمالي','Total')}</span><span class="mono">${money(o.total)}</span></div>
+ <div class="r"><span>${x('طريقة الدفع','Payment')}</span><span>${o.method==='card'?x('بطاقة','Card'):x('نقدًا','Cash')}</span></div>
+ <div class="ft">${esc(o.foot||x('نتمنى لكم الشفاء العاجل','Wishing you a speedy recovery'))}</div></div>`;
+}
+function visitSlips(v){
+ const pt=patOf(v.pid);const out=[];const groups={};
+ v.lines.forEach(l=>(groups[l.dept]||(groups[l.dept]=[])).push(l));
+ Object.entries(groups).forEach(([d,ls])=>{
+  const D=REVDEPT[d];let big=nm(D),sub=x('إيصال','Receipt');
+  if(DEPTS[d]&&DEPTS[d].receipt==='doctor'&&ls[0].staff){big=nm(staffOf(ls[0].staff));sub=nm(D)}
+  if(d==='lab'){big=x('المعمل','Laboratory');sub=x('إيصال فحوصات','Lab receipt')}
+  out.push(slip({big,sub,no:(d==='lab'?'L-':'R-')+v.no,time:v.time,pt:pt.name,rows:ls.map(l=>[nm(l),l.price.toLocaleString('en-US')]),total:ls.reduce((a,l)=>a+l.price,0),method:v.method,
+   foot:d==='lab'?x('سلّم هذا الإيصال للمعمل لسحب العينة','Hand this receipt to the lab for sampling'):''}));
+ });
+ return out.join('');
+}
+function topbar(title,extra=''){
+ const st=shiftStats(S.shiftNo);
+ return `<div class="top"><h1>${title}</h1>${extra}<span class="pill mute">${x('وردية','Shift')} <b class="num">${S.shiftNo}</b></span><span class="pill ok"><span class="dot"></span>${x('متصل','Online')}</span></div>`;
+}
+function renderLogin(){
+ const order=['reception','lab','pharmacy','admin'];
+ return `<div class="login"><div class="tools" style="align-self:flex-end"><button class="btn sm" data-act="lang">${ic('globe',15)}${x('English','العربية')}</button><button class="btn sm" data-act="theme">${ic('moon',15)}${x('المظهر','Theme')}</button></div>
+ <div class="logo"><i>${ic('shield',30)}</i>${esc(nm(S.hospital))}</div>
+ <p class="msg" style="max-width:560px;text-align:center">${x('اختر الجهاز الذي ستعمل عليه. كل جهاز يفتح بصلاحياته الخاصة.','Choose the device you are working on. Each device opens with its own permissions.')}</p>
+ <div class="devs">${order.map(r=>{const R=ROLES[r];return `<button class="devc" style="--c:${R.color}" data-act="login" data-role="${r}"><div class="top2"><span class="ico">${ic(R.icon,24)}</span><span class="pill mute">${x('جهاز','Device')} ${R.dev}</span></div><h3>${nm(R)}</h3><p>${R.d[S.lang==='ar'?0:1]}</p><div class="who">${S.perms[r].length} ${x('صلاحية مفعّلة','permissions on')}</div></button>`}).join('')}</div>
+ <p class="msg" style="font-size:12.5px">${x('نسخة عرض تفاعلية. البيانات تجريبية وتُحفظ في هذا المتصفح فقط.','Interactive preview. Demo data, saved in this browser only.')}</p></div>`;
+}
+function shell(inner){
+ const R=ROLES[U.role];const items=NAV[U.role].filter(n=>can(n[3]));
+ return `<div class="shell"><aside class="side"><div class="brand"><i>${ic('shield',20)}</i>${esc(nm(S.hospital))}</div>
+ <div class="dev"><b>${nm(R)}</b>${x('جهاز','Device')} ${R.dev}</div>
+ <nav class="nav" aria-label="${x('التنقل','Navigation')}">${items.map(n=>`<button data-act="nav" data-v="${n[0]}" ${U.view===n[0]?'aria-current="page"':''}>${ic(n[1])}${n[2][S.lang==='ar'?0:1]}</button>`).join('')}</nav>
+ <div class="foot"><button data-act="lang">${ic('globe')}${x('English','العربية')}</button><button data-act="theme">${ic('moon')}${x('المظهر','Theme')}</button><button data-act="logout">${ic('logout')}${x('تبديل الجهاز','Switch device')}</button></div></aside>
+ <main class="main">${inner}</main></div>`;
+}
+
+/* reception */
+function vVisit(){
+ const D=U.draft;const pat=D.pid?patOf(D.pid):null;
+ const q=(U.pq||'').trim();
+ const res=q?S.patients.filter(p=>p.name.includes(q)||p.phone.includes(q)||p.id.toLowerCase().includes(q.toLowerCase())).slice(0,5):[];
+ const dept=U.pdept;const sv=S.services.filter(s=>s.dept===dept);
+ const lines=D.lines.map(r=>r.k==='s'?{...svcOf(r.id),kind:'svc'}:{...testOf(r.id),price:testPrice(r.id),kind:'lab'});
+ const total=lines.reduce((a,l)=>a+l.price,0);
+ const duty=DEPTS[dept].duty?staffOf(S.roster[dept]):null;
+ if(U.done){return `${topbar(x('تم التحصيل','Payment collected'))}<div class="content"><div class="row"><span class="pill ok">${ic('check',14)}${x('تم إصدار الإيصالات','Receipts issued')}</span><span class="msg">${x('الفحوصات ظهرت الآن في جهاز المعمل بأسمائها.','Tests now appear on the lab device by name.')}</span><span class="grow"></span><button class="btn" data-act="printdemo">${ic('printer')}${x('طباعة','Print')}</button><button class="btn pri" data-act="newvisit">${ic('plus')}${x('مريض جديد','Next patient')}</button></div><div class="slips">${visitSlips(S.visits.find(v=>v.id===U.done))}</div></div>`}
+ return `${topbar(x('زيارة جديدة','New visit'))}<div class="content"><div class="cols c3">
+ <section class="card"><header>${ic('user')}${x('المريض','Patient')}${pat?`<button class="btn sm" style="margin-inline-start:auto" data-act="clearpat">${x('تغيير','Change')}</button>`:''}</header>
+  <div class="body">${pat?`<div class="row"><span class="avatar">${esc(pat.name[0])}</span><div><b>${esc(pat.name)}</b><div class="msg">${pat.id} · ${pat.age} ${x('سنة','y')} · ${esc(pat.phone)}</div></div></div>`
+  :U.newp?`<div class="field"><label for="np_name">${x('الاسم','Full name')}</label><input class="inp" id="np_name" data-inp="np.name" value="${esc(U.np.name)}"></div>
+   <div class="row"><div class="field grow"><label for="np_phone">${x('الهاتف','Phone')}</label><input class="inp" id="np_phone" inputmode="tel" data-inp="np.phone" value="${esc(U.np.phone)}"></div><div class="field" style="width:84px"><label for="np_age">${x('العمر','Age')}</label><input class="inp" id="np_age" inputmode="numeric" data-inp="np.age" value="${esc(U.np.age)}"></div></div>
+   <div class="row"><button class="btn pri grow" data-act="savepat">${x('حفظ المريض','Save patient')}</button><button class="btn" data-act="newpat">${x('إلغاء','Cancel')}</button></div>`
+  :`<div class="search">${ic('search',16)}<input class="inp" id="psearch" data-inp="pq" placeholder="${x('ابحث بالاسم أو الهاتف أو رقم الملف','Search name, phone or file no.')}" value="${esc(U.pq||'')}"></div>
+   ${res.length?`<div class="list" style="border:1px solid var(--line);border-radius:10px;overflow:hidden">${res.map(p=>`<button class="item" data-act="selpat" data-id="${p.id}"><span class="avatar">${esc(p.name[0])}</span><span class="grow"><b>${esc(p.name)}</b><div class="meta">${p.id} · ${esc(p.phone)}</div></span></button>`).join('')}</div>`:q?`<p class="msg">${x('لا يوجد مريض بهذا البحث.','No patient matches.')}</p>`:`<p class="msg">${x('ابدأ بالبحث، أو سجّل مريضًا جديدًا.','Search first, or register a new patient.')}</p>`}
+   <button class="btn" data-act="newpat">${ic('plus')}${x('مريض جديد','New patient')}</button>`}</div></section>
+
+ <section class="card"><header>${ic('clipboard')}${x('العيادة والخدمات','Clinic & services')}</header><div class="body">
+  <div class="tiles">${Object.keys(DEPTS).map(d=>{const dd=DEPTS[d];const du=dd.duty?staffOf(S.roster[d]):null;return `<button class="tile" data-act="dept" data-d="${d}" aria-pressed="${d===dept}"><b>${nm(dd)}</b><small>${du?nm(du):x('بدون نوبتجي','No duty staff')}</small></button>`}).join('')}</div>
+  <div class="pill ${DEPTS[dept].receipt==='doctor'?'':'mute'}" style="align-self:flex-start">${ic('receipt',14)}${DEPTS[dept].receipt==='doctor'&&duty?x('الإيصال باسم ','Receipt in the name of ')+nm(duty):x('الإيصال باسم ','Receipt in the name of ')+nm(DEPTS[dept])}</div>
+  <div style="display:grid;gap:8px">${sv.map(s=>`<button class="svc" data-act="addsvc" data-id="${s.id}"><span>${nm(s)}</span><span class="p num">${money(s.price)}</span>${ic('plus',16)}</button>`).join('')}</div>
+  <div style="border-top:1px solid var(--line);padding-top:12px;display:flex;flex-direction:column;gap:8px"><b>${ic('flask',16)} ${x('فحوصات المعمل (أسماء فقط)','Lab tests (names only)')}</b>
+  <div style="display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(190px,1fr))">${TESTS.map(t=>`<button class="svc" data-act="addtest" data-id="${t.id}"><span>${nm(t)}</span><span class="p num">${testPrice(t.id)}</span></button>`).join('')}</div></div></div></section>
+
+ <section class="card" style="position:sticky;top:84px"><header>${ic('receipt')}${x('ملخص الدفع','Payment summary')}</header><div class="body">
+  ${lines.length?`<div class="list">${lines.map((l,i)=>`<div class="item" style="cursor:default;padding-inline:0"><span class="grow">${nm(l)}<div class="meta">${l.kind==='lab'?x('معمل','Lab'):nm(DEPTS[l.dept])}</div></span><span class="num">${l.price}</span><button class="ib" data-act="rmline" data-i="${i}" aria-label="${x('حذف','Remove')}">${ic('x',14)}</button></div>`).join('')}</div>`:`<div class="empty">${x('أضف خدمة أو فحصًا من القائمة.','Add a service or a test from the lists.')}</div>`}
+  <div class="row" style="justify-content:space-between;font-size:18px"><b>${x('الإجمالي','Total')}</b><b class="num">${money(total)}</b></div>
+  <div class="seg" role="group" style="align-self:stretch"><button class="grow" data-act="method" data-m="cash" aria-pressed="${D.method==='cash'}">${x('نقدًا','Cash')}</button><button class="grow" data-act="method" data-m="card" aria-pressed="${D.method==='card'}">${x('بطاقة','Card')}</button></div>
+  <button class="btn pri lg" data-act="confirmvisit" ${(!pat||!lines.length)?'disabled':''}>${ic('check')}${x('تحصيل وإصدار الإيصال','Collect & issue receipt')}</button>
+  ${!pat?`<p class="msg">${x('اختر المريض أولًا.','Pick a patient first.')}</p>`:''}</div></section></div></div>`;
+}
+function vQueue(){
+ const vs=S.visits.filter(v=>U.qAll||v.shift===S.shiftNo).sort((a,b)=>b.time-a.time);
+ return `${topbar(x('زيارات الوردية','Shift visits'),`<div class="seg"><button data-act="qall" data-v="0" aria-pressed="${!U.qAll}">${x('الوردية الحالية','This shift')}</button><button data-act="qall" data-v="1" aria-pressed="${U.qAll}">${x('الكل','All')}</button></div>`)}
+ <div class="content"><section class="card"><div class="tbl-wrap"><table><thead><tr><th>#</th><th>${x('المريض','Patient')}</th><th>${x('الأقسام','Departments')}</th><th>${x('الفحوصات','Lab')}</th><th class="n">${x('المبلغ','Amount')}</th><th>${x('الوقت','Time')}</th><th></th></tr></thead><tbody>
+ ${vs.map(v=>{const od=S.orders.filter(o=>o.vid===v.id);const done=od.filter(o=>o.status!=='pending').length;const ds=[...new Set(v.lines.map(l=>l.dept))].filter(d=>d!=='lab');
+ return `<tr><td class="mono">${v.no}</td><td><b>${esc(patOf(v.pid).name)}</b></td><td>${ds.map(d=>`<span class="pill mute">${nm(REVDEPT[d])}</span>`).join(' ')||'—'}</td>
+ <td>${od.length?`<span class="pill ${done===od.length?'ok':'warn'}">${done}/${od.length} ${x('جاهز','ready')}</span>`:'—'}</td><td class="n num">${money(v.total)}</td><td class="num">${tm(v.time)}</td><td class="n"><button class="btn sm" data-act="slips" data-id="${v.id}">${ic('receipt',14)}${x('الإيصال','Receipt')}</button></td></tr>`}).join('')||`<tr><td colspan="7" class="empty">${x('لا زيارات بعد.','No visits yet.')}</td></tr>`}</tbody></table></div></section></div>`;
+}
+function vShift(){
+ const st=shiftStats(S.shiftNo);
+ return `${topbar(x('الوردية','Shift'))}<div class="content">
+ <div class="sumline"><div><b class="num">${money(st.total)}</b><span>${x('إجمالي التحصيل','Total collected')}</span></div><div><b class="num">${money(st.cash)}</b><span>${x('نقدًا','Cash in drawer')}</span></div><div><b class="num">${money(st.card)}</b><span>${x('بطاقات','Card')}</span></div><div><b class="num">${st.vs.length}</b><span>${x('زيارات','Visits')}</span></div></div>
+ <section class="card"><header>${x('التحصيل حسب القسم','Collections by department')}</header><div class="body">${deptBars(st.byDept)}</div></section>
+ ${U.confirmClose?`<div class="confirm"><span class="grow"><b>${x('إغلاق الوردية','Close shift')} ${S.shiftNo}؟</b> ${x('سيُحسب لكل عامل مستحقه ويبدأ عدّاد وردية جديدة.','Each person\'s share is calculated and a new shift begins.')}</span><button class="btn" data-act="closeask" data-v="0">${x('تراجع','Cancel')}</button><button class="btn pri" data-act="closeshift">${x('إغلاق الوردية','Close shift')}</button></div>`
+  :`<div class="row"><button class="btn pri lg" data-act="closeask" data-v="1" ${st.count?'':'disabled'}>${ic('clock')}${x('إغلاق الوردية','Close shift')}</button></div>`}</div>`;
+}
+function deptBars(by){
+ const ent=Object.entries(by).sort((a,b)=>b[1]-a[1]);const mx=Math.max(1,...ent.map(e=>e[1]));
+ if(!ent.length)return `<div class="empty">${x('لا بيانات بعد.','No data yet.')}</div>`;
+ return `<div class="bars">${ent.map(([d,v])=>`<div class="bar"><span>${nm(REVDEPT[d])}</span><span class="t"><i style="width:${(v/mx*100).toFixed(1)}%"></i></span><span class="num" style="text-align:end">${money(v)}</span></div>`).join('')}</div>`;
+}
+
+/* lab */
+function vOrders(){
+ const f=(U.filter||'').trim();
+ let os=S.orders.filter(o=>U.tab==='pending'?o.status==='pending':U.tab==='done'?o.status==='done':o.status==='delivered').sort((a,b)=>a.time-b.time);
+ if(f)os=os.filter(o=>patOf(o.pid).name.includes(f)||String(S.visits.find(v=>v.id===o.vid).no).includes(f));
+ const cnt=k=>S.orders.filter(o=>o.status===k).length;
+ const sel=S.orders.find(o=>o.id===U.labSel);
+ return `${topbar(x('الفحوصات','Lab orders'))}<div class="content"><div class="row"><div class="seg">${[['pending',x('قيد الانتظار','Waiting')],['done',x('جاهزة للتسليم','Ready')],['delivered',x('سُلّمت','Delivered')]].map(([k,l])=>`<button data-act="tab" data-t="${k}" aria-pressed="${U.tab===k}">${l} <b class="num">${cnt(k)}</b></button>`).join('')}</div>
+ <div class="search grow" style="max-width:340px">${ic('search',16)}<input class="inp" id="lsearch" data-inp="filter" placeholder="${x('اسم المريض أو رقم الإيصال','Patient name or receipt no.')}" value="${esc(U.filter||'')}"></div></div>
+ <div class="cols c2b"><section class="card"><div class="list">${os.map(o=>{const v=S.visits.find(v=>v.id===o.vid);return `<button class="item ${o.id===U.labSel?'sel':''}" data-act="labsel" data-id="${o.id}"><span class="avatar">${ic('flask',16)}</span><span class="grow"><b>${nm(testOf(o.testId))}</b><div class="meta">${esc(patOf(o.pid).name)} · L-${v.no}</div></span><span class="meta num">${tm(o.time)}</span></button>`}).join('')||`<div class="empty">${x('لا توجد فحوصات هنا.','Nothing in this list.')}</div>`}</div></section>
+ ${sel?labEntry(sel):`<section class="card"><div class="empty">${ic('flask',28)}<p>${x('اختر فحصًا من القائمة لإدخال النتيجة.','Pick a test from the list to enter its result.')}</p></div></section>`}</div></div>`;
+}
+function labEntry(o){
+ const t=testOf(o.testId),v=S.visits.find(v=>v.id===o.vid),pt=patOf(o.pid);const ro=o.status==='delivered'||!can('lab.enter');
+ return `<section class="card"><header>${nm(t)}<span class="pill ok" style="margin-inline-start:auto">${ic('check',13)}${x('مدفوع','Paid')} · R-${v.no}</span></header><div class="body">
+ <div class="row"><span class="avatar">${esc(pt.name[0])}</span><div><b>${esc(pt.name)}</b><div class="msg">${pt.id} · ${pt.age} ${x('سنة','y')} · ${pt.g==='f'?x('أنثى','Female'):x('ذكر','Male')}</div></div></div>
+ <div class="tbl-wrap"><table><thead><tr><th>${x('البند','Parameter')}</th><th>${x('النتيجة','Result')}</th><th>${x('المرجع','Reference')}</th><th></th></tr></thead><tbody>
+ ${t.p.map(p=>{const val=o.results[p.k]??'';const fl=flagOf(p,val);return `<tr><td>${nm(p)}</td><td style="min-width:150px">${p.opts?`<select class="inp" id="r_${p.k}" data-chg="res" data-k="${p.k}" ${ro?'disabled':''}><option value="">—</option>${p.opts.map(op=>`<option ${val===op?'selected':''}>${op}</option>`).join('')}</select>`
+  :`<input class="inp num" id="r_${p.k}" inputmode="decimal" data-inp="res" data-k="${p.k}" value="${esc(val)}" ${ro?'disabled':''} style="max-width:120px">`}</td>
+ <td class="num" style="color:var(--muted)">${p.opts?p.nl.join(' / '):`${p.lo} – ${p.hi} ${p.u||''}`}</td><td>${fl?`<span class="fl ${fl}">${fl==='N'?x('طبيعي','Normal'):fl==='H'?x('مرتفع','High'):fl==='L'?x('منخفض','Low'):x('غير طبيعي','Abnormal')}</span>`:''}</td></tr>`}).join('')}</tbody></table></div>
+ <div class="row">${o.status==='pending'?`<button class="btn pri" data-act="labsave" ${can('lab.enter')?'':'disabled'}>${ic('check')}${x('حفظ النتيجة','Save result')}</button>`:''}
+ ${o.status!=='pending'&&can('lab.print')?`<button class="btn" data-act="labreport">${ic('printer')}${x('معاينة وطباعة التقرير','Preview & print report')}</button>`:''}
+ ${o.status==='done'&&can('lab.deliver')?`<button class="btn pri" data-act="labdeliver">${ic('check')}${x('تسليم للمريض','Mark delivered')}</button>`:''}
+ ${o.status==='delivered'?`<span class="pill ok">${x('سُلّمت','Delivered')}</span>`:''}</div></div></section>`;
+}
+function vCatalog(){
+ return `${topbar(x('دليل الفحوصات','Test catalog'))}<div class="content"><section class="card"><div class="tbl-wrap"><table><thead><tr><th>${x('الفحص','Test')}</th><th>${x('البنود والمرجع','Parameters & reference')}</th><th class="n">${x('السعر','Price')}</th></tr></thead><tbody>
+ ${TESTS.map(t=>`<tr><td><b>${nm(t)}</b></td><td style="color:var(--muted)">${t.p.map(p=>`${nm(p)} <span class="num">${p.opts?p.nl[0]:p.lo+'–'+p.hi}</span>`).join(' · ')}</td><td class="n num">${money(testPrice(t.id))}</td></tr>`).join('')}</tbody></table></div></section></div>`;
+}
+
+/* pharmacy */
+function vPos(){
+ const q=(U.medq||'').trim().toLowerCase();
+ const ms=S.meds.filter(m=>!q||m.ar.includes(q)||m.en.toLowerCase().includes(q));
+ const lines=U.cart.map(c=>({...c,m:medOf(c.id)}));const sub=lines.reduce((a,l)=>a+l.qty*l.m.price,0);const disc=Math.min(100,Math.max(0,+U.disc||0));const total=sub*(1-disc/100);
+ return `${topbar(x('بيع','Sell'))}<div class="content"><div class="cols c2"><section class="card"><header>${x('الأدوية','Medicines')}</header><div class="body"><div class="search">${ic('search',16)}<input class="inp" id="medq" data-inp="medq" placeholder="${x('ابحث باسم الدواء أو امسح الباركود','Search medicine or scan barcode')}" value="${esc(U.medq||'')}"></div>
+ <div class="tbl-wrap"><table><thead><tr><th>${x('الدواء','Medicine')}</th><th>${x('الشكل','Form')}</th><th class="n">${x('المخزون','Stock')}</th><th class="n">${x('السعر','Price')}</th><th></th></tr></thead><tbody>
+ ${ms.map(m=>{const s=medState(m);return `<tr><td><b>${nm(m)}</b></td><td>${x(m.fa,m.fe)}</td><td class="n"><span class="pill ${m.stock===0?'bad':s.low?'warn':'mute'} num">${m.stock}</span></td><td class="n num">${m.price}</td><td class="n"><button class="btn sm" data-act="addcart" data-id="${m.id}" ${m.stock<1||s.expired?'disabled':''}>${ic('plus',14)}</button></td></tr>`}).join('')}</tbody></table></div></div></section>
+ <section class="card"><header>${ic('cart')}${x('الفاتورة','Current sale')}</header><div class="body">
+ ${lines.length?`<div class="list">${lines.map(l=>`<div class="item" style="cursor:default;padding-inline:0"><span class="grow">${nm(l.m)}<div class="meta num">${l.m.price} × ${l.qty}</div></span><button class="ib" data-act="cartq" data-id="${l.id}" data-d="-1" aria-label="−">${ic('minus',14)}</button><b class="num" style="min-width:22px;text-align:center">${l.qty}</b><button class="ib" data-act="cartq" data-id="${l.id}" data-d="1" aria-label="+">${ic('plus',14)}</button><span class="num" style="min-width:64px;text-align:end">${l.qty*l.m.price}</span></div>`).join('')}</div>`:`<div class="empty">${x('أضف أدوية للفاتورة.','Add medicines to the sale.')}</div>`}
+ ${can('discounts.apply')?`<div class="row"><label for="disc" class="msg">${x('خصم %','Discount %')}</label><input class="inp num" id="disc" inputmode="decimal" data-inp="disc" value="${esc(U.disc||'')}" style="max-width:90px"></div>`:''}
+ <div class="row" style="justify-content:space-between;font-size:18px"><b>${x('الإجمالي','Total')}</b><b class="num">${money(total)}</b></div>
+ <div class="seg" style="align-self:stretch"><button class="grow" data-act="pm" data-m="cash" aria-pressed="${U.pm!=='card'}">${x('نقدًا','Cash')}</button><button class="grow" data-act="pm" data-m="card" aria-pressed="${U.pm==='card'}">${x('بطاقة','Card')}</button></div>
+ <button class="btn pri lg" data-act="checkout" ${lines.length?'':'disabled'}>${ic('check')}${x('إتمام البيع','Complete sale')}</button></div></section></div></div>`;
+}
+function vStock(){
+ const f=U.stockf;let ms=S.meds.map(m=>({m,s:medState(m)}));
+ if(f==='low')ms=ms.filter(a=>a.s.low);if(f==='exp')ms=ms.filter(a=>a.s.exp);
+ const val=S.meds.reduce((a,m)=>a+m.stock*m.cost,0);
+ return `${topbar(x('المخزون','Stock'),`<div class="seg">${[['all',x('الكل','All')],['low',x('ناقص','Low')],['exp',x('قرب الانتهاء','Expiring')]].map(([k,l])=>`<button data-act="stockf" data-f="${k}" aria-pressed="${f===k}">${l}</button>`).join('')}</div>`)}
+ <div class="content"><div class="sumline"><div><b class="num">${S.meds.length}</b><span>${x('صنف','Items')}</span></div><div><b class="num">${S.meds.filter(m=>medState(m).low).length}</b><span>${x('أصناف ناقصة','Below minimum')}</span></div><div><b class="num">${S.meds.filter(m=>medState(m).exp).length}</b><span>${x('تنتهي خلال 90 يوم','Expiring in 90 days')}</span></div><div><b class="num">${money(val)}</b><span>${x('قيمة المخزون بسعر الشراء','Stock value at cost')}</span></div></div>
+ <section class="card"><div class="tbl-wrap"><table><thead><tr><th>${x('الدواء','Medicine')}</th><th>${x('التشغيلة','Batch')}</th><th>${x('الانتهاء','Expiry')}</th><th class="n">${x('الكمية','Qty')}</th><th class="n">${x('الحد الأدنى','Min')}</th><th>${x('الحالة','Status')}</th></tr></thead><tbody>
+ ${ms.map(({m,s})=>`<tr><td><b>${nm(m)}</b></td><td class="mono">${m.batch}</td><td class="num">${m.exp}</td><td class="n num">${m.stock}</td><td class="n num">${m.min}</td><td>${s.expired?`<span class="pill bad">${x('منتهي','Expired')}</span>`:s.exp?`<span class="pill warn">${x('ينتهي خلال','Ends in')} ${s.days} ${x('يوم','d')}</span>`:''} ${s.low?`<span class="pill warn">${x('ناقص','Low')}</span>`:''}${!s.low&&!s.exp?`<span class="pill ok">${x('جيد','OK')}</span>`:''}</td></tr>`).join('')}</tbody></table></div></section></div>`;
+}
+function vPurchases(){
+ const P=U.pur||(U.pur={sup:SUPPLIERS[0].id,lines:[],d:{med:S.meds[0].id,qty:'',cost:'',batch:'',exp:''}});
+ const tot=P.lines.reduce((a,l)=>a+l.qty*l.cost,0);
+ return `${topbar(x('المشتريات','Purchases'))}<div class="content"><div class="cols c2"><section class="card"><header>${x('فاتورة شراء جديدة','New purchase invoice')}</header><div class="body">
+ <div class="field"><label for="psup">${x('المورد','Supplier')}</label><select class="inp" id="psup" data-chg="psup">${SUPPLIERS.map(s=>`<option value="${s.id}" ${P.sup===s.id?'selected':''}>${nm(s)}</option>`).join('')}</select></div>
+ <div class="field"><label for="pmed">${x('الدواء','Medicine')}</label><select class="inp" id="pmed" data-chg="pd.med">${S.meds.map(m=>`<option value="${m.id}" ${P.d.med===m.id?'selected':''}>${nm(m)}</option>`).join('')}</select></div>
+ <div class="row"><div class="field grow"><label for="pqty">${x('الكمية','Qty')}</label><input class="inp num" id="pqty" inputmode="numeric" data-inp="pd.qty" value="${esc(P.d.qty)}"></div><div class="field grow"><label for="pcost">${x('سعر الشراء','Unit cost')}</label><input class="inp num" id="pcost" inputmode="decimal" data-inp="pd.cost" value="${esc(P.d.cost)}"></div></div>
+ <div class="row"><div class="field grow"><label for="pbatch">${x('رقم التشغيلة','Batch')}</label><input class="inp mono" id="pbatch" data-inp="pd.batch" value="${esc(P.d.batch)}"></div><div class="field grow"><label for="pexp">${x('الانتهاء','Expiry')}</label><input class="inp" type="date" id="pexp" data-inp="pd.exp" value="${esc(P.d.exp)}"></div></div>
+ <button class="btn" data-act="addpl">${ic('plus')}${x('أضف للفاتورة','Add line')}</button>
+ ${P.lines.length?`<div class="list">${P.lines.map((l,i)=>`<div class="item" style="cursor:default;padding-inline:0"><span class="grow">${nm(medOf(l.med))}<div class="meta num">${l.qty} × ${l.cost} · ${l.batch||'—'} · ${l.exp}</div></span><b class="num">${l.qty*l.cost}</b><button class="ib" data-act="rmpl" data-i="${i}" aria-label="${x('حذف','Remove')}">${ic('x',14)}</button></div>`).join('')}</div>
+ <div class="row" style="justify-content:space-between;font-size:18px"><b>${x('الإجمالي','Total')}</b><b class="num">${money(tot)}</b></div><button class="btn pri lg" data-act="savepur">${ic('check')}${x('اعتماد وإضافة للمخزون','Post & add to stock')}</button>`:''}</div></section>
+ <section class="card"><header>${x('آخر الفواتير','Recent invoices')}</header>${S.purchases.length?`<div class="list">${S.purchases.slice().reverse().map(p=>`<div class="item" style="cursor:default"><span class="grow"><b>PO-${p.no}</b><div class="meta">${nm(SUPPLIERS.find(s=>s.id===p.sup))} · ${p.lines.length} ${x('أصناف','items')} · ${dt(p.time)}</div></span><b class="num">${money(p.total)}</b></div>`).join('')}</div>`:`<div class="empty">${x('لا فواتير شراء بعد.','No purchase invoices yet.')}</div>`}</section></div></div>`;
+}
+function vSales(){
+ const ss=S.sales.slice().reverse();
+ return `${topbar(x('سجل المبيعات','Sales log'))}<div class="content"><section class="card"><div class="tbl-wrap"><table><thead><tr><th>#</th><th>${x('الأصناف','Items')}</th><th>${x('الدفع','Payment')}</th><th class="n">${x('الإجمالي','Total')}</th><th>${x('الوقت','Time')}</th><th></th></tr></thead><tbody>
+ ${ss.map(s=>`<tr><td class="mono">PH-${s.no}</td><td>${s.lines.map(l=>nm(medOf(l.medId))+' ×'+l.qty).join('، ')}</td><td>${s.method==='card'?x('بطاقة','Card'):x('نقدًا','Cash')}</td><td class="n num">${money(s.total)}</td><td class="num">${tm(s.time)}</td><td class="n"><button class="btn sm" data-act="saleslip" data-id="${s.id}">${ic('receipt',14)}</button></td></tr>`).join('')||`<tr><td colspan="6" class="empty">${x('لا مبيعات بعد.','No sales yet.')}</td></tr>`}</tbody></table></div></section></div>`;
+}
+
+/* admin */
+function vDash(){
+ const st=shiftStats(S.shiftNo);const pend=S.orders.filter(o=>o.status==='pending').length;const low=S.meds.filter(m=>medState(m).low||medState(m).exp).length;
+ return `${topbar(x('لوحة التحكم','Overview'))}<div class="content">
+ <div class="sumline"><div><b class="num">${money(st.total)}</b><span>${x('إيرادات الوردية الحالية','Current shift revenue')}</span></div><div><b class="num">${money(st.comm)}</b><span>${x('نسب العاملين المستحقة','Staff shares accrued')}</span></div><div><b class="num">${pend}</b><span>${x('فحوصات تنتظر النتيجة','Lab orders waiting')}</span></div><div><b class="num">${low}</b><span>${x('تنبيهات مخزون','Stock alerts')}</span></div></div>
+ <div class="cols c2"><section class="card"><header>${x('الإيراد حسب القسم','Revenue by department')}<span class="sub">${x('الوردية','Shift')} ${S.shiftNo}</span></header><div class="body">${deptBars(st.byDept)}</div></section>
+ <section class="card"><header>${x('الأجهزة','Devices')}</header><div class="list">${['reception','lab','pharmacy','admin'].map(r=>`<div class="item" style="cursor:default"><span class="avatar" style="background:${ROLES[r].color};color:#fff">${ic(ROLES[r].icon,16)}</span><span class="grow"><b>${nm(ROLES[r])}</b><div class="meta">${x('جهاز','Device')} ${ROLES[r].dev}</div></span><span class="pill ok"><span class="dot"></span>${x('متصل','Online')}</span></div>`).join('')}</div></section></div>
+ <section class="card"><header>${x('آخر النشاط','Recent activity')}</header><div class="list">${S.log.slice(0,8).map(l=>`<div class="item" style="cursor:default"><span class="meta num">${tm(l.t)}</span><span class="pill mute">${nm(ROLES[l.role])}</span><span>${l.msg[S.lang==='ar'?0:1]}</span></div>`).join('')}</div></section></div>`;
+}
+function vRoster(){
+ return `${topbar(x('النوبتجية','On duty'))}<div class="content"><p class="msg">${x('اختر العامل المناوب لكل قسم. اسمه يظهر على إيصال المريض وتُحسب نسبته له.','Pick who is on duty per department. Their name prints on the patient receipt and their share accrues to them.')}</p>
+ <section class="card"><div class="tbl-wrap"><table><thead><tr><th>${x('القسم','Department')}</th><th>${x('المناوب الآن','On duty now')}</th><th>${x('يظهر على الإيصال','Receipt shows')}</th></tr></thead><tbody>
+ ${Object.keys(DEPTS).map(d=>{const dd=DEPTS[d];if(!dd.duty)return `<tr><td><b>${nm(dd)}</b></td><td class="msg">—</td><td>${nm(dd)}</td></tr>`;const cands=STAFF.filter(s=>s.d.includes(d));
+ return `<tr><td><b>${nm(dd)}</b></td><td><select class="inp" id="ro_${d}" data-chg="roster" data-d="${d}" style="max-width:260px">${cands.map(s=>`<option value="${s.id}" ${S.roster[d]===s.id?'selected':''}>${nm(s)}</option>`).join('')}</select></td><td>${dd.receipt==='doctor'?nm(staffOf(S.roster[d])):nm(dd)}</td></tr>`}).join('')}</tbody></table></div></section></div>`;
+}
+function vSettle(){
+ const st=shiftStats(S.shiftNo);const ent=Object.entries(st.byStaff);
+ return `${topbar(x('تسوية الوردية','Shift settlement'))}<div class="content">
+ <div class="sumline"><div><b class="num">${money(st.total)}</b><span>${x('إجمالي التحصيل','Total collected')}</span></div><div><b class="num">${money(st.comm)}</b><span>${x('مستحقات العاملين','Owed to staff')}</span></div><div><b class="num">${money(st.net)}</b><span>${x('صافي المستشفى','Hospital net')}</span></div></div>
+ <section class="card"><header>${x('مستحقات العاملين','Staff dues')}<span class="sub">${x('الوردية','Shift')} ${S.shiftNo}</span></header><div class="tbl-wrap"><table><thead><tr><th>${x('العامل','Staff')}</th><th>${x('القسم','Department')}</th><th class="n">${x('خدمات','Services')}</th><th class="n">${x('إيراد الخدمات','Billed')}</th><th class="n">${x('المستحق','Due')}</th></tr></thead><tbody>
+ ${ent.map(([id,b])=>`<tr><td><b>${nm(staffOf(id))}</b></td><td>${STAFF.find(s=>s.id===id).d.map(d=>nm(DEPTS[d])).join('، ')}</td><td class="n num">${b.n}</td><td class="n num">${money(b.base)}</td><td class="n num"><b>${money(b.comm)}</b></td></tr>`).join('')||`<tr><td colspan="5" class="empty">${x('لا نسب مستحقة بعد.','No shares accrued yet.')}</td></tr>`}</tbody></table></div></section>
+ ${U.confirmClose?`<div class="confirm"><span class="grow"><b>${x('إغلاق الوردية','Close shift')} ${S.shiftNo}؟</b> ${x('سيُحفظ كشف التسوية وتبدأ وردية جديدة.','The settlement sheet is saved and a new shift begins.')}</span><button class="btn" data-act="closeask" data-v="0">${x('تراجع','Cancel')}</button><button class="btn pri" data-act="closeshift">${x('إغلاق وتسوية','Close & settle')}</button></div>`
+ :`<div class="row"><button class="btn pri lg" data-act="closeask" data-v="1" ${st.count?'':'disabled'}>${ic('check')}${x('إغلاق الوردية وإصدار الكشف','Close shift & issue sheet')}</button></div>`}
+ <section class="card"><header>${x('ورديات سابقة','Closed shifts')}</header>${S.shifts.length?`<div class="list">${S.shifts.slice().reverse().map(s=>`<button class="item" data-act="settleview" data-id="${s.no}"><span class="grow"><b>${x('وردية','Shift')} ${s.no}</b><div class="meta">${dt(s.closed)} ${tm(s.closed)}</div></span><b class="num">${money(s.total)}</b></button>`).join('')}</div>`:`<div class="empty">${x('لم تُغلق ورديات بعد.','No closed shifts yet.')}</div>`}</section></div>`;
+}
+function vServices(){
+ return `${topbar(x('الخدمات والنسب','Services & shares'))}<div class="content"><p class="msg">${x('النسبة هي حصة العامل المناوب من سعر الخدمة. العمومي بدون نسبة.','The percentage is the on-duty person\'s share of the service price. General has no share.')}</p>
+ <section class="card"><div class="tbl-wrap"><table><thead><tr><th>${x('القسم','Department')}</th><th>${x('الخدمة','Service')}</th><th class="n">${x('السعر','Price')}</th><th class="n">${x('النسبة %','Share %')}</th></tr></thead><tbody>
+ ${S.services.map(s=>`<tr><td>${nm(DEPTS[s.dept])}</td><td><b>${nm(s)}</b></td><td class="n"><input class="inp num" id="sp_${s.id}" inputmode="decimal" data-chg="svcp" data-id="${s.id}" value="${s.price}" style="width:96px;text-align:end"></td><td class="n"><input class="inp num" id="sc_${s.id}" inputmode="decimal" data-chg="svcc" data-id="${s.id}" value="${s.pct}" style="width:76px;text-align:end" ${DEPTS[s.dept].duty?'':'disabled'}></td></tr>`).join('')}
+ ${TESTS.map(t=>`<tr><td>${x('المعمل','Laboratory')}</td><td><b>${nm(t)}</b></td><td class="n"><input class="inp num" id="tp_${t.id}" inputmode="decimal" data-chg="testp" data-id="${t.id}" value="${testPrice(t.id)}" style="width:96px;text-align:end"></td><td class="n msg">—</td></tr>`).join('')}</tbody></table></div></section></div>`;
+}
+function vUsers(){
+ const rs=['reception','lab','pharmacy','admin'];
+ return `${topbar(x('الصلاحيات','Permissions'))}<div class="content"><p class="msg">${x('أي تغيير هنا يظهر فورًا في الجهاز المعني. صلاحيات الإدارة ثابتة.','Changes apply to that device immediately. Control permissions are fixed.')}</p>
+ <section class="card"><div class="tbl-wrap"><table class="mat"><thead><tr><th>${x('الصلاحية','Permission')}</th>${rs.map(r=>`<th>${nm(ROLES[r])}</th>`).join('')}</tr></thead><tbody>
+ ${PERMS.map(([k,l])=>`<tr><td>${l[S.lang==='ar'?0:1]}</td>${rs.map(r=>`<td><input type="checkbox" class="chk" id="pm_${r}_${k}" data-chg="perm" data-r="${r}" data-k="${k}" ${S.perms[r].includes(k)?'checked':''} ${r==='admin'?'disabled':''} aria-label="${nm(ROLES[r])}: ${l[S.lang==='ar'?0:1]}"></td>`).join('')}</tr>`).join('')}</tbody></table></div></section></div>`;
+}
+function vReports(){
+ const all={};S.visits.forEach(v=>v.lines.forEach(l=>all[l.dept]=(all[l.dept]||0)+l.price));S.sales.forEach(s=>all.pharmacy=(all.pharmacy||0)+s.total);
+ S.shifts.forEach(sh=>{});
+ const tot=Object.values(all).reduce((a,b)=>a+b,0);
+ const tc={};S.orders.forEach(o=>tc[o.testId]=(tc[o.testId]||0)+1);
+ const mc={};S.sales.forEach(s=>s.lines.forEach(l=>mc[l.medId]=(mc[l.medId]||0)+l.qty));
+ return `${topbar(x('التقارير','Reports'))}<div class="content"><div class="sumline"><div><b class="num">${money(tot)}</b><span>${x('إجمالي الإيراد (كل الورديات)','Total revenue (all shifts)')}</span></div><div><b class="num">${S.visits.length}</b><span>${x('زيارات','Visits')}</span></div><div><b class="num">${S.orders.length}</b><span>${x('فحوصات','Lab tests')}</span></div><div><b class="num">${S.sales.length}</b><span>${x('فواتير صيدلية','Pharmacy sales')}</span></div></div>
+ <div class="cols c2"><section class="card"><header>${x('الإيراد حسب القسم','Revenue by department')}</header><div class="body">${deptBars(all)}</div></section>
+ <section class="card"><header>${x('الأكثر طلبًا','Most requested')}</header><div class="list">${Object.entries(tc).sort((a,b)=>b[1]-a[1]).slice(0,4).map(([id,n])=>`<div class="item" style="cursor:default"><span class="grow">${nm(testOf(id))}</span><b class="num">${n}</b></div>`).join('')}${Object.entries(mc).sort((a,b)=>b[1]-a[1]).slice(0,4).map(([id,n])=>`<div class="item" style="cursor:default"><span class="grow">${nm(medOf(id))}</span><b class="num">${n}</b></div>`).join('')}</div></section></div></div>`;
+}
+function vSettings(){
+ return `${topbar(x('الإعدادات','Settings'))}<div class="content"><section class="card" style="max-width:560px"><div class="body">
+ <div class="field"><label for="hn_ar">${x('اسم المستشفى (عربي)','Hospital name (Arabic)')}</label><input class="inp" id="hn_ar" data-chg="hn" data-l="ar" value="${esc(S.hospital.ar)}"></div>
+ <div class="field"><label for="hn_en">${x('اسم المستشفى (إنجليزي)','Hospital name (English)')}</label><input class="inp" id="hn_en" data-chg="hn" data-l="en" value="${esc(S.hospital.en)}"></div>
+ <div class="field"><label for="cur">${x('العملة','Currency')}</label><select class="inp" id="cur" data-chg="cur">${Object.keys(CUR).map(c=>`<option value="${c}" ${S.cur===c?'selected':''}>${CUR[c][S.lang==='ar'?0:1]}</option>`).join('')}</select></div>
+ <div class="field"><label>${x('عرض ورق الطابعة الحرارية','Thermal paper width')}</label><div class="seg" style="align-self:flex-start"><button data-act="rw" data-w="58" aria-pressed="${S.rw==58}">58 mm</button><button data-act="rw" data-w="80" aria-pressed="${S.rw==80}">80 mm</button></div></div>
+ <div class="row"><button class="btn bad" data-act="reset">${x('إعادة البيانات التجريبية','Reset demo data')}</button></div></div></section></div>`;
+}
+
+/* modals */
+function modal(){
+ const m=U.modal;if(!m)return '';let title='',inner='';
+ if(m.t==='slips'){const v=S.visits.find(v=>v.id===m.id);title=x('إيصالات الزيارة','Visit receipts')+' '+v.no;inner=`<div class="slips">${visitSlips(v)}</div>`}
+ if(m.t==='sale'){const s=S.sales.find(s=>s.id===m.id);title='PH-'+s.no;inner=`<div class="slips">${slip({big:x('الصيدلية','Pharmacy'),sub:x('إيصال بيع','Sales receipt'),no:'PH-'+s.no,time:s.time,rows:s.lines.map(l=>[nm(medOf(l.medId))+' ×'+l.qty,(l.qty*l.price).toLocaleString('en-US')]).concat(s.disc?[[x('خصم','Discount'),s.disc+'%']]:[]),total:s.total,method:s.method})}</div>`}
+ if(m.t==='report'){const o=S.orders.find(o=>o.id===m.id),t=testOf(o.testId),pt=patOf(o.pid),v=S.visits.find(v=>v.id===o.vid);title=x('تقرير النتيجة','Result report');
+  inner=`<div class="paper"><div class="row" style="justify-content:space-between"><h2>${esc(nm(S.hospital))}</h2><span class="mono">L-${v.no}</span></div><div style="color:#555;margin-bottom:10px">${x('تقرير المعمل','Laboratory report')}</div><hr style="border:0;border-top:1px solid #ccc">
+  <div class="row" style="justify-content:space-between;margin:10px 0"><div><b>${esc(pt.name)}</b><div style="color:#555">${pt.id} · ${pt.age} ${x('سنة','y')} · ${pt.g==='f'?x('أنثى','Female'):x('ذكر','Male')}</div></div><div style="color:#555;text-align:end">${dt(o.doneAt||Date.now())}</div></div>
+  <h3 style="margin:12px 0 4px">${nm(t)}</h3><table><thead><tr><th>${x('البند','Parameter')}</th><th>${x('النتيجة','Result')}</th><th>${x('المرجع','Reference')}</th><th></th></tr></thead><tbody>
+  ${t.p.map(p=>{const val=o.results[p.k]??'';const fl=flagOf(p,val);return `<tr><td>${nm(p)}</td><td class="num"><b>${esc(val)} ${p.u||''}</b></td><td class="num" style="color:#555">${p.opts?p.nl.join(' / '):p.lo+' – '+p.hi}</td><td><b style="color:${fl==='N'?'#1B8A57':'#C93B52'}">${fl==='N'?'':fl==='H'?'H':fl==='L'?'L':fl?'!':''}</b></td></tr>`}).join('')}</tbody></table></div>`}
+ if(m.t==='settle'){const sh=S.shifts.find(s=>s.no===m.no);title=x('كشف تسوية وردية','Shift settlement')+' '+sh.no;
+  inner=`<div class="paper"><h2>${esc(nm(S.hospital))}</h2><div style="color:#555;margin-bottom:10px">${x('كشف تسوية الوردية','Shift settlement sheet')} ${sh.no} · ${dt(sh.closed)} ${tm(sh.closed)}</div>
+  <table><thead><tr><th>${x('العامل','Staff')}</th><th class="n">${x('إيراد','Billed')}</th><th class="n">${x('المستحق','Due')}</th></tr></thead><tbody>${Object.entries(sh.byStaff).map(([id,b])=>`<tr><td>${nm(staffOf(id))}</td><td class="n num">${money(b.base)}</td><td class="n num"><b>${money(b.comm)}</b></td></tr>`).join('')}</tbody></table>
+  <hr style="border:0;border-top:1px solid #ccc;margin:12px 0"><div class="row" style="justify-content:space-between"><span>${x('إجمالي التحصيل','Total collected')}</span><b class="num">${money(sh.total)}</b></div><div class="row" style="justify-content:space-between"><span>${x('مستحقات العاملين','Owed to staff')}</span><b class="num">${money(sh.comm)}</b></div><div class="row" style="justify-content:space-between"><span>${x('صافي المستشفى','Hospital net')}</span><b class="num">${money(sh.total-sh.comm)}</b></div></div>`}
+ return `<div class="ov" data-act="closemodal" data-bg="1"><div class="modal" role="dialog" aria-modal="true" aria-label="${esc(title)}"><header>${esc(title)}<span class="grow"></span><button class="btn sm" data-act="printdemo">${ic('printer',14)}${x('طباعة','Print')}</button><button class="ib" data-act="closemodal" aria-label="${x('إغلاق','Close')}">${ic('x',16)}</button></header><div class="mb">${inner}</div></div></div>`;
+}
+
+/* ---------- render ---------- */
+const VIEWS={visit:vVisit,queue:vQueue,shift:vShift,orders:vOrders,catalog:vCatalog,pos:vPos,stock:vStock,purchases:vPurchases,sales:vSales,dash:vDash,roster:vRoster,settle:vSettle,services:vServices,users:vUsers,reports:vReports,settings:vSettings};
+function applyLang(){const h=document.documentElement;h.lang=S.lang;h.dir=S.lang==='ar'?'rtl':'ltr';if(S.theme==='auto')h.removeAttribute('data-theme');else h.setAttribute('data-theme',S.theme)}
+function render(){
+ applyLang();
+ const ae=document.activeElement;const aid=ae&&ae.id;const sel=ae&&ae.selectionStart!=null?[ae.selectionStart,ae.selectionEnd]:null;const sc=$('.main')?$('.main').scrollTop:0,wsc=window.scrollY;
+ const app=$('#app');
+ if(!U.role){app.removeAttribute('data-role');app.innerHTML=renderLogin()}
+ else{app.setAttribute('data-role',U.role);if(!VIEWS[U.view]||!NAV[U.role].some(n=>n[0]===U.view&&can(n[3]))){const f=NAV[U.role].find(n=>can(n[3]));U.view=f?f[0]:null}
+  app.innerHTML=U.view?shell(VIEWS[U.view]()+modal()):shell(`<div class="empty">${x('لا توجد صلاحيات لهذا الجهاز.','No permissions on this device.')}</div>`)}
+ if(aid){const n=document.getElementById(aid);if(n){n.focus({preventScroll:true});if(sel&&n.setSelectionRange)try{n.setSelectionRange(sel[0],sel[1])}catch(e){}}}
+ window.scrollTo(0,wsc);
+}
+let tt;function toast(m){const t=$('#toast');t.innerHTML=`<span>${esc(m)}</span>`;clearTimeout(tt);tt=setTimeout(()=>t.innerHTML='',2600)}
+function enter(role){U.role=role;U.view=NAV[role].find(n=>can(n[3]))?.[0];U.modal=null;U.done=null;U.confirmClose=false;if(role==='reception')resetDraft()}
+function resetDraft(){U.draft={pid:null,lines:[],method:'cash'};U.newp=false;U.np={name:'',phone:'',age:''};U.pq='';U.done=null}
+function setPath(o,path,val){const ks=path.split('.');let r=o;ks.slice(0,-1).forEach(k=>r=r[k]);r[ks.at(-1)]=val}
+
+/* ---------- events ---------- */
+const A={
+ login:a=>{enter(a.dataset.role);render()},
+ logout:()=>{U.role=null;U.modal=null;render()},
+ lang:()=>{S.lang=S.lang==='ar'?'en':'ar';save();render()},
+ theme:()=>{S.theme=S.theme==='auto'?'dark':S.theme==='dark'?'light':'auto';save();render();toast(S.theme==='auto'?x('المظهر: تلقائي','Theme: auto'):S.theme==='dark'?x('المظهر: داكن','Theme: dark'):x('المظهر: فاتح','Theme: light'))},
+ nav:a=>{U.view=a.dataset.v;U.modal=null;U.confirmClose=false;render()},
+ printdemo:()=>toast(x('الطباعة الفعلية تعمل من نسخة Laravel عبر ESC/POS','Real printing runs from the Laravel build via ESC/POS')),
+ closemodal:(a,e)=>{if(a.dataset.bg&&e.target!==a)return;U.modal=null;render()},
+ /* reception */
+ selpat:a=>{U.draft.pid=a.dataset.id;render()},clearpat:()=>{U.draft.pid=null;render()},
+ newpat:()=>{U.newp=!U.newp;render()},
+ savepat:()=>{const n=U.np;if(!n.name.trim()||!n.phone.trim())return toast(x('اكتب الاسم والهاتف','Enter name and phone'));
+  const p={id:'P-'+String(S.patients.length+1).padStart(4,'0'),name:n.name.trim(),phone:n.phone.trim(),age:+n.age||0,g:'m'};S.patients.push(p);U.draft.pid=p.id;U.newp=false;U.np={name:'',phone:'',age:''};log('تسجيل مريض '+p.name,'Registered patient '+p.name);save();render()},
+ dept:a=>{U.pdept=a.dataset.d;render()},
+ addsvc:a=>{U.draft.lines.push({k:'s',id:a.dataset.id});render()},
+ addtest:a=>{if(U.draft.lines.some(l=>l.k==='t'&&l.id===a.dataset.id))return toast(x('الفحص مضاف بالفعل','Test already added'));U.draft.lines.push({k:'t',id:a.dataset.id});render()},
+ rmline:a=>{U.draft.lines.splice(+a.dataset.i,1);render()},
+ method:a=>{U.draft.method=a.dataset.m;render()},
+ confirmvisit:()=>{const D=U.draft;if(!D.pid||!D.lines.length)return;const v=createVisit(D.pid,D.lines,D.method,Date.now());log(`زيارة ${v.no} — ${patOf(D.pid).name}`,`Visit ${v.no} — ${patOf(D.pid).name}`);save();U.done=v.id;render()},
+ newvisit:()=>{resetDraft();render()},
+ slips:a=>{U.modal={t:'slips',id:a.dataset.id};render()},
+ qall:a=>{U.qAll=a.dataset.v==='1';render()},
+ closeask:a=>{U.confirmClose=a.dataset.v==='1';render()},
+ closeshift:()=>{const st=shiftStats(S.shiftNo);S.shifts.push({no:S.shiftNo,closed:Date.now(),total:st.total,comm:st.comm,byStaff:st.byStaff,byDept:st.byDept});log(`إغلاق الوردية ${S.shiftNo}`,`Closed shift ${S.shiftNo}`);S.shiftNo++;U.confirmClose=false;save();render();toast(x('أُغلقت الوردية وبدأت وردية جديدة','Shift closed, new shift started'))},
+ settleview:a=>{U.modal={t:'settle',no:+a.dataset.id};render()},
+ /* lab */
+ tab:a=>{U.tab=a.dataset.t;U.labSel=null;render()},
+ labsel:a=>{U.labSel=a.dataset.id;render()},
+ labsave:()=>{const o=S.orders.find(o=>o.id===U.labSel);const t=testOf(o.testId);if(t.p.some(p=>(o.results[p.k]??'')===''))return toast(x('أكمل كل البنود قبل الحفظ','Fill every parameter before saving'));o.status='done';o.doneAt=Date.now();log(`نتيجة جاهزة: ${nm(t)}`,`Result ready: ${nm(t)}`);save();render();toast(x('حُفظت النتيجة','Result saved'))},
+ labreport:()=>{U.modal={t:'report',id:U.labSel};render()},
+ labdeliver:()=>{const o=S.orders.find(o=>o.id===U.labSel);o.status='delivered';log('تسليم نتيجة','Result delivered');save();U.labSel=null;render();toast(x('سُلّمت النتيجة للمريض','Result delivered'))},
+ /* pharmacy */
+ addcart:a=>{const m=medOf(a.dataset.id);const c=U.cart.find(c=>c.id===m.id);if(c){if(c.qty<m.stock)c.qty++}else U.cart.push({id:m.id,qty:1});render()},
+ cartq:a=>{const c=U.cart.find(c=>c.id===a.dataset.id);c.qty+=+a.dataset.d;if(c.qty<=0)U.cart=U.cart.filter(x=>x!==c);else if(c.qty>medOf(c.id).stock)c.qty=medOf(c.id).stock;render()},
+ pm:a=>{U.pm=a.dataset.m;render()},
+ checkout:()=>{if(!U.cart.length)return;const disc=Math.min(100,Math.max(0,+U.disc||0));const lines=U.cart.map(c=>{const m=medOf(c.id);m.stock-=c.qty;return{medId:c.id,qty:c.qty,price:m.price}});
+  const s={id:uid(),no:++S.pno,lines,disc,method:U.pm||'cash',time:Date.now(),shift:S.shiftNo,total:lines.reduce((a,l)=>a+l.qty*l.price,0)*(1-disc/100)};S.sales.push(s);log(`بيع PH-${s.no}`,`Sale PH-${s.no}`);U.cart=[];U.disc='';save();U.modal={t:'sale',id:s.id};render()},
+ saleslip:a=>{U.modal={t:'sale',id:a.dataset.id};render()},
+ stockf:a=>{U.stockf=a.dataset.f;render()},
+ addpl:()=>{const d=U.pur.d;if(!(+d.qty>0)||!(+d.cost>0)||!d.exp)return toast(x('اكتب الكمية والسعر وتاريخ الانتهاء','Enter quantity, cost and expiry'));U.pur.lines.push({med:d.med,qty:+d.qty,cost:+d.cost,batch:d.batch,exp:d.exp});U.pur.d={med:d.med,qty:'',cost:'',batch:'',exp:''};render()},
+ rmpl:a=>{U.pur.lines.splice(+a.dataset.i,1);render()},
+ savepur:()=>{const P=U.pur;const p={id:uid(),no:S.purchases.length+301,sup:P.sup,lines:P.lines,time:Date.now(),total:P.lines.reduce((a,l)=>a+l.qty*l.cost,0)};
+  P.lines.forEach(l=>{const m=medOf(l.med);m.stock+=l.qty;m.cost=l.cost;m.batch=l.batch||m.batch;m.exp=l.exp});S.purchases.push(p);log(`فاتورة شراء PO-${p.no}`,`Purchase PO-${p.no}`);U.pur=null;save();render();toast(x('أُضيفت الكميات للمخزون','Stock updated'))},
+ rw:a=>{S.rw=+a.dataset.w;save();render()},
+ reset:()=>{try{localStorage.removeItem(KEY)}catch(e){}seed();U.cart=[];U.pur=null;save();render();toast(x('أُعيدت البيانات التجريبية','Demo data restored'))}
+};
+document.addEventListener('click',e=>{const a=e.target.closest('[data-act]');if(!a)return;const f=A[a.dataset.act];if(f)f(a,e)});
+document.addEventListener('input',e=>{const t=e.target,k=t.dataset.inp;if(!k)return;
+ if(k==='res'){const o=S.orders.find(o=>o.id===U.labSel);o.results[t.dataset.k]=t.value;save();render();return}
+ if(k.startsWith('np.'))U.np[k.slice(3)]=t.value;else if(k.startsWith('pd.'))U.pur.d[k.slice(3)]=t.value;else U[k]=t.value;render()});
+document.addEventListener('change',e=>{const t=e.target,k=t.dataset.chg;if(!k)return;
+ if(k==='res'){S.orders.find(o=>o.id===U.labSel).results[t.dataset.k]=t.value}
+ else if(k==='roster'){S.roster[t.dataset.d]=t.value;log('تغيير النوبتجية','Duty roster changed')}
+ else if(k==='svcp')svcOf(t.dataset.id).price=Math.max(0,+t.value||0);
+ else if(k==='svcc')svcOf(t.dataset.id).pct=Math.min(100,Math.max(0,+t.value||0));
+ else if(k==='testp')S.tests.find(x=>x.id===t.dataset.id).price=Math.max(0,+t.value||0);
+ else if(k==='perm'){const l=S.perms[t.dataset.r];const i=l.indexOf(t.dataset.k);if(t.checked&&i<0)l.push(t.dataset.k);if(!t.checked&&i>=0)l.splice(i,1)}
+ else if(k==='hn')S.hospital[t.dataset.l]=t.value||S.hospital[t.dataset.l];
+ else if(k==='cur')S.cur=t.value;
+ else if(k==='psup')U.pur.sup=t.value;
+ else if(k==='pd.med')U.pur.d.med=t.value;
+ save();render()});
+S=load();if(!S)seed();
+render();
+</script>
+
+</body></html>
