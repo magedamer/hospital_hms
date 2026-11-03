@@ -32,7 +32,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 #app[data-role="admin"]{--role:#A9641A;--role-soft:#F7E8D3}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #app[data-role="lab"]{--role:#9C8CF0;--role-soft:#241F4A}
 :root:not([data-theme="light"]) #app[data-role="pharmacy"]{--role:#5CC47E;--role-soft:#143522}
-:root:not([data-theme="light"]) #app[data-role="admin"]{--role:#E0A053;--role-soft:#2810}
+:root:not([data-theme="light"]) #app[data-role="admin"]{--role:#E0A053;--role-soft:#3A2810}
 :root:not([data-theme="light"]) #app[data-role="reception"]{--role:#4FC1CC;--role-soft:#0F3A3F}}
 :root[data-theme="dark"] #app[data-role="lab"]{--role:#9C8CF0;--role-soft:#241F4A}
 :root[data-theme="dark"] #app[data-role="pharmacy"]{--role:#5CC47E;--role-soft:#143522}
@@ -495,8 +495,7 @@ function vVisit(){
  const sub=sum(lines,l=>l.price*l.q);const disc=can('discounts.apply')?Math.min(100,Math.max(0,+D.disc||0)):0;const total=r2(sub*(1-disc/100));
  const paid=D.paid===''||D.paid==null?total:Math.min(total,Math.max(0,+D.paid||0));
  const duty=DEPTS[dept].duty?staffOf(S.roster[dept]):null;
- if(U.done){const v=S.visits.find(v=>v.id===U.done);if(!v){U.done=null;return vVisit()}
-  return `${topbar(x('تم التحصيل','Payment collected'))}<div class="content"><div class="row"><span class="pill ok">${ic('check',14)}${x('تم إصدار الإيصالات','Receipts issued')}</span><span class="msg">${x('الفحوصات ظهرت الآن في جهاز المعمل بأسمائها.','Tests now appear on the lab device by name.')}</span><span class="grow"></span><button class="btn" data-act="printdemo">${ic('printer')}${x('طباعة','Print')}</button><button class="btn pri" data-act="newvisit">${ic('plus')}${x('مريض جديد','Next patient')}</button></div><div class="slips">${visitSlips(v)}</div></div>`}
+ if(U.done){const v=S.visits.find(v=>v.id===U.done);return `${topbar(x('تم التحصيل','Payment collected'))}<div class="content"><div class="row"><span class="pill ok">${ic('check',14)}${x('تم إصدار الإيصالات','Receipts issued')}</span><span class="msg">${x('الفحوصات ظهرت الآن في جهاز المعمل بأسمائها.','Tests now appear on the lab device by name.')}</span><span class="grow"></span><button class="btn" data-act="printdemo">${ic('printer')}${x('طباعة','Print')}</button><button class="btn pri" data-act="newvisit">${ic('plus')}${x('مريض جديد','Next patient')}</button></div><div class="slips">${visitSlips(v)}</div></div>`}
  return `${topbar(x('زيارة جديدة','New visit'))}<div class="content"><div class="cols c3">
  <section class="card"><header>${ic('user')}${x('المريض','Patient')}${pat?`<button class="btn sm" style="margin-inline-start:auto" data-act="clearpat">${x('تغيير','Change')}</button>`:''}</header>
   <div class="body">${pat?`<div class="row"><span class="avatar">${esc(pat.name[0])}</span><div><b>${esc(pat.name)}</b><div class="msg">${pat.id} · ${pat.age} ${x('سنة','y')} · ${esc(pat.phone)}</div></div></div>
@@ -604,16 +603,16 @@ function vExpenses(){
 function vOrders(){
  const f=(U.filter||'').trim();
  let os=S.orders.filter(o=>o.status===U.tab).sort((a,b)=>a.time-b.time);
- if(f)os=os.filter(o=>patOf(o.pid).name.includes(f)||String((S.visits.find(v=>v.id===o.vid)||{}).no||'').includes(f));
+ if(f)os=os.filter(o=>patOf(o.pid).name.includes(f)||String(S.visits.find(v=>v.id===o.vid).no).includes(f));
  const cnt=k=>S.orders.filter(o=>o.status===k).length;
  const o=S.orders.find(o=>o.id===U.labSel);
  return `${topbar(x('الفحوصات','Lab orders'))}<div class="content"><div class="row"><div class="seg">${Object.keys(ST_LAB).map(k=>`<button data-act="tab" data-t="${k}" aria-pressed="${U.tab===k}">${ST_LAB[k][S.lang==='ar'?0:1]} <b class="num">${cnt(k)}</b></button>`).join('')}</div>
  <div class="search grow" style="max-width:340px">${ic('search',16)}<input class="inp" id="lsearch" data-inp="filter" placeholder="${x('اسم المريض أو رقم الإيصال','Patient name or receipt no.')}" value="${esc(U.filter||'')}"></div></div>
- <div class="cols c2b"><section class="card"><div class="list">${os.map(o=>{const v=S.visits.find(v=>v.id===o.vid)||{no:'?'};return `<button class="item ${o.id===U.labSel?'sel':''}" data-act="labsel" data-id="${o.id}"><span class="avatar">${ic('flask',16)}</span><span class="grow"><b>${nm(testOf(o.testId))}</b><div class="meta">${esc(patOf(o.pid).name)} · L-${v.no}</div></span><span class="meta num">${tm(o.time)}</span></button>`}).join('')||bar(x('لا توجد فحوصات هنا.','Nothing in this list.'))}</div></section>
+ <div class="cols c2b"><section class="card"><div class="list">${os.map(o=>{const v=S.visits.find(v=>v.id===o.vid);return `<button class="item ${o.id===U.labSel?'sel':''}" data-act="labsel" data-id="${o.id}"><span class="avatar">${ic('flask',16)}</span><span class="grow"><b>${nm(testOf(o.testId))}</b><div class="meta">${esc(patOf(o.pid).name)} · L-${v.no}</div></span><span class="meta num">${tm(o.time)}</span></button>`}).join('')||bar(x('لا توجد فحوصات هنا.','Nothing in this list.'))}</div></section>
  ${o&&o.status!=='void'?labEntry(o):`<section class="card">${bar(x('اختر فحصًا من القائمة.','Pick a test from the list.'))}</section>`}</div></div>`;
 }
 function labEntry(o){
- const t=testOf(o.testId),v=S.visits.find(v=>v.id===o.vid)||{no:'?'},pt=patOf(o.pid);const bal=vBal(v);const ro=o.status!=='collected'||!can('lab.enter');
+ const t=testOf(o.testId),v=S.visits.find(v=>v.id===o.vid),pt=patOf(o.pid);const bal=vBal(v);const ro=o.status!=='collected'||!can('lab.enter');
  return `<section class="card"><header>${nm(t)}<span class="pill ${bal>0?'warn':'ok'}" style="margin-inline-start:auto">${bal>0?`${x('متبقي','Balance due')} ${money(bal)}`:`${ic('check',13)}${x('مدفوع','Paid')}`} · R-${v.no}</span></header><div class="body">
  <div class="row"><span class="avatar">${esc(pt.name[0])}</span><div><b>${esc(pt.name)}</b><div class="msg">${pt.id} · ${pt.age} ${x('سنة','y')} · ${pt.g==='f'?x('أنثى','Female'):x('ذكر','Male')}</div></div></div>
  ${pt.notes?`<div class="pill warn" style="align-self:flex-start;white-space:normal">${ic('alert',14)}${esc(pt.notes)}</div>`:''}
@@ -621,7 +620,7 @@ function labEntry(o){
  <div class="tbl-wrap"><table><thead><tr><th>${x('البند','Parameter')}</th><th>${x('النتيجة','Result')}</th><th>${x('المرجع','Reference')}</th><th></th></tr></thead><tbody>
  ${t.p.map(p=>{const val=o.results[p.k]??'';const fl=flagOf(p,val);return `<tr><td>${nm(p)}</td><td style="min-width:150px">${p.opts?`<select class="inp" id="r_${p.k}" data-chg="res" data-k="${p.k}" ${ro?'disabled':''}><option value="">—</option>${p.opts.map(op=>`<option ${val===op?'selected':''}>${op}</option>`).join('')}</select>`
   :`<input class="inp num" id="r_${p.k}" inputmode="decimal" data-inp="res" data-k="${p.k}" value="${esc(val)}" ${ro?'disabled':''} style="max-width:120px">`}</td>
- <td class="num" style="color:var(--muted)">${p.opts?p.nl.join(' / '):`${p.lo} – ${p.hi} ${p.u||''}`}</td><td id="fl_${p.k}">${fl?`<span class="fl ${fl}">${fl==='N'?x('طبيعي','Normal'):fl==='H'?x('مرتفع','High'):fl==='L'?x('منخفض','Low'):x('غير طبيعي','Abnormal')}</span>`:''}</td></tr>`}).join('')}</tbody></table></div>
+ <td class="num" style="color:var(--muted)">${p.opts?p.nl.join(' / '):`${p.lo} – ${p.hi} ${p.u||''}`}</td><td>${fl?`<span class="fl ${fl}">${fl==='N'?x('طبيعي','Normal'):fl==='H'?x('مرتفع','High'):fl==='L'?x('منخفض','Low'):x('غير طبيعي','Abnormal')}</span>`:''}</td></tr>`}).join('')}</tbody></table></div>
  <div class="row">${o.status==='collected'?`<button class="btn pri" data-act="labsave" ${can('lab.enter')?'':'disabled'}>${ic('check')}${x('حفظ النتيجة','Save result')}</button>`:''}
  ${(o.status==='done'||o.status==='delivered')&&can('lab.print')?`<button class="btn" data-act="labreport">${ic('printer')}${x('معاينة وطباعة التقرير','Preview & print report')}</button>`:''}
  ${o.status==='done'&&can('lab.enter')?`<button class="btn" data-act="labamend">${ic('edit')}${x('تعديل النتيجة','Amend result')}</button>`:''}
@@ -796,24 +795,24 @@ function vSettings(){
 const mform=(body,ok,label)=>`<div class="mform">${body}<div class="row"><button class="btn" data-act="closemodal">${x('إلغاء','Cancel')}</button><button class="btn pri grow" data-act="${ok}">${label}</button></div></div>`;
 function modal(){
  const m=U.modal;if(!m)return '';let title='',inner='',pr=false;const F=U.mf;
- if(m.t==='slips'){const v=S.visits.find(v=>v.id===m.id);if(!v)return'';title=x('إيصالات الزيارة','Visit receipts')+' '+v.no;inner=`<div class="slips">${visitSlips(v)}</div>`;pr=true}
- if(m.t==='sale'){const s=S.sales.find(s=>s.id===m.id);if(!s)return'';title=(s.ret?'RET-':'PH-')+s.no;pr=true;inner=`<div class="slips">${slip({big:x('الصيدلية','Pharmacy'),sub:s.ret?x('إيصال مرتجع','Return receipt'):x('إيصال بيع','Sales receipt'),no:(s.ret?'RET-':'PH-')+s.no,time:s.time,rows:s.lines.map(l=>[nm(medOf(l.medId))+' ×'+l.qty,(l.qty*l.price).toLocaleString('en-US')]).concat(s.disc?[[x('خصم','Discount'),s.disc+'%']]:[]),total:s.total,method:s.method,by:(userOf(s.by)||{}).name})}</div>`}
- if(m.t==='report'){const o=S.orders.find(o=>o.id===m.id);if(!o)return'';const t=testOf(o.testId),pt=patOf(o.pid),v=S.visits.find(v=>v.id===o.vid)||{no:'?'};title=x('تقرير النتيجة','Result report');pr=true;
+ if(m.t==='slips'){const v=S.visits.find(v=>v.id===m.id);title=x('إيصالات الزيارة','Visit receipts')+' '+v.no;inner=`<div class="slips">${visitSlips(v)}</div>`;pr=true}
+ if(m.t==='sale'){const s=S.sales.find(s=>s.id===m.id);title=(s.ret?'RET-':'PH-')+s.no;pr=true;inner=`<div class="slips">${slip({big:x('الصيدلية','Pharmacy'),sub:s.ret?x('إيصال مرتجع','Return receipt'):x('إيصال بيع','Sales receipt'),no:(s.ret?'RET-':'PH-')+s.no,time:s.time,rows:s.lines.map(l=>[nm(medOf(l.medId))+' ×'+l.qty,(l.qty*l.price).toLocaleString('en-US')]).concat(s.disc?[[x('خصم','Discount'),s.disc+'%']]:[]),total:s.total,method:s.method,by:(userOf(s.by)||{}).name})}</div>`}
+ if(m.t==='report'){const o=S.orders.find(o=>o.id===m.id),t=testOf(o.testId),pt=patOf(o.pid),v=S.visits.find(v=>v.id===o.vid);title=x('تقرير النتيجة','Result report');pr=true;
   inner=`<div class="paper"><div class="row" style="justify-content:space-between"><h2>${esc(nm(S.hospital))}</h2><span class="mono">L-${v.no}</span></div><div style="color:#555;margin-bottom:10px">${x('تقرير المعمل','Laboratory report')} · ${esc(S.phone)}</div><hr style="border:0;border-top:1px solid #ccc">
   <div class="row" style="justify-content:space-between;margin:10px 0"><div><b>${esc(pt.name)}</b><div style="color:#555">${pt.id} · ${pt.age} ${x('سنة','y')} · ${pt.g==='f'?x('أنثى','Female'):x('ذكر','Male')}</div></div><div style="color:#555;text-align:end">${dt(o.doneAt||Date.now())}</div></div>
   <h3 style="margin:12px 0 4px">${nm(t)}</h3><table><thead><tr><th>${x('البند','Parameter')}</th><th>${x('النتيجة','Result')}</th><th>${x('المرجع','Reference')}</th><th></th></tr></thead><tbody>
   ${t.p.map(p=>{const val=o.results[p.k]??'';const fl=flagOf(p,val);return `<tr><td>${nm(p)}</td><td class="num"><b>${esc(val)} ${p.u||''}</b></td><td class="num" style="color:#555">${p.opts?p.nl.join(' / '):p.lo+' – '+p.hi}</td><td><b style="color:#C93B52">${fl==='H'?'H':fl==='L'?'L':fl==='A'?'!':''}</b></td></tr>`}).join('')}</tbody></table></div>`}
- if(m.t==='settle'){const sh=S.shifts.find(s=>s.no===m.no);if(!sh)return'';title=x('كشف تسوية وردية','Shift settlement')+' '+sh.no;pr=true;
+ if(m.t==='settle'){const sh=S.shifts.find(s=>s.no===m.no);title=x('كشف تسوية وردية','Shift settlement')+' '+sh.no;pr=true;
   inner=`<div class="paper"><h2>${esc(nm(S.hospital))}</h2><div style="color:#555;margin-bottom:10px">${x('كشف تسوية الوردية','Shift settlement sheet')} ${sh.no} · ${dt(sh.closed)} ${tm(sh.closed)} · ${esc(sh.byName||'')}</div>
   <table><thead><tr><th>${x('العامل','Staff')}</th><th class="n">${x('إيراد','Billed')}</th><th class="n">${x('المستحق','Due')}</th></tr></thead><tbody>${Object.entries(sh.byStaff).map(([id,b])=>`<tr><td>${nm(staffOf(id))}</td><td class="n num">${money(b.base)}</td><td class="n num"><b>${money(b.comm)}</b></td></tr>`).join('')}</tbody></table>
   <hr style="border:0;border-top:1px solid #ccc;margin:12px 0">${[[x('إجمالي الفواتير','Total billed'),sh.total],[x('مستحقات العاملين','Owed to staff'),sh.comm],[x('مصروفات','Expenses'),sh.exp||0],[x('صافي المستشفى','Hospital net'),sh.total-sh.comm-(sh.exp||0)],[x('النقدية المتوقعة','Expected cash'),sh.expected],...(sh.counted!=null?[[x('النقدية الفعلية','Counted cash'),sh.counted],[x('الفرق','Difference'),r2(sh.counted-sh.expected)]]:[])].map(r=>`<div class="row" style="justify-content:space-between"><span>${r[0]}</span><b class="num">${money(r[1])}</b></div>`).join('')}</div>`}
  if(m.t==='pw'){title=x('تغيير كلمة المرور','Change password');inner=mform(`${fld('pw0',x('كلمة المرور الحالية','Current password'),inp('pw0','mf.cur',F.cur,'type="password" autocomplete="current-password"'))}${fld('pw1',x('كلمة المرور الجديدة','New password'),inp('pw1','mf.new',F.new,'type="password" autocomplete="new-password"'))}${fld('pw2',x('تأكيد كلمة المرور','Confirm new password'),inp('pw2','mf.conf',F.conf,'type="password" autocomplete="new-password"'))}${F.err?`<div class="err">${F.err}</div>`:''}`,'pwsave',x('حفظ','Save'))}
- if(m.t==='rpw'){const u=userOf(m.id);if(!u)return'';title=x('إعادة تعيين كلمة المرور','Reset password')+' — '+u.username;inner=mform(`${fld('rp1',x('كلمة المرور الجديدة','New password'),inp('rp1','mf.new',F.new,'autocomplete="off"'))}${F.err?`<div class="err">${F.err}</div>`:''}`,'rpwsave',x('تعيين','Set password'))}
- if(m.t==='collect'){const v=S.visits.find(v=>v.id===m.id);if(!v)return'';title=x('تحصيل المتبقي','Collect balance')+' R-'+v.no;inner=mform(`<div class="msg">${esc(patOf(v.pid).name)} · ${x('المتبقي','Balance due')}: <b class="num">${money(vBal(v))}</b></div>${fld('cl1',x('المبلغ','Amount'),inp('cl1','mf.amt',F.amt,'inputmode="decimal"'))}<div class="seg"><button class="grow" data-act="mfm" data-m="cash" aria-pressed="${F.method!=='card'}">${x('نقدًا','Cash')}</button><button class="grow" data-act="mfm" data-m="card" aria-pressed="${F.method==='card'}">${x('بطاقة','Card')}</button></div>${F.err?`<div class="err">${F.err}</div>`:''}`,'collectsave',x('تحصيل','Collect'))}
- if(m.t==='refund'){const v=S.visits.find(v=>v.id===m.id);if(!v)return'';title=x('استرداد زيارة','Refund visit')+' R-'+v.no;inner=mform(`<div class="msg">${esc(patOf(v.pid).name)} · ${x('سيُرد','Refund')}: <b class="num">${money(vPaid(v))}</b>. ${x('الفحوصات التي لم تظهر نتيجتها تُلغى.','Lab orders without results are voided.')}</div>${fld('rf1',x('سبب الاسترداد','Reason'),inp('rf1','mf.reason',F.reason))}${F.err?`<div class="err">${F.err}</div>`:''}`,'refundsave',x('تأكيد الاسترداد','Confirm refund'))}
- if(m.t==='return'){const s=S.sales.find(s=>s.id===m.id);if(!s)return'';title=x('مرتجع من فاتورة','Return from sale')+' PH-'+s.no;
+ if(m.t==='rpw'){const u=userOf(m.id);title=x('إعادة تعيين كلمة المرور','Reset password')+' — '+u.username;inner=mform(`${fld('rp1',x('كلمة المرور الجديدة','New password'),inp('rp1','mf.new',F.new,'autocomplete="off"'))}${F.err?`<div class="err">${F.err}</div>`:''}`,'rpwsave',x('تعيين','Set password'))}
+ if(m.t==='collect'){const v=S.visits.find(v=>v.id===m.id);title=x('تحصيل المتبقي','Collect balance')+' R-'+v.no;inner=mform(`<div class="msg">${esc(patOf(v.pid).name)} · ${x('المتبقي','Balance due')}: <b class="num">${money(vBal(v))}</b></div>${fld('cl1',x('المبلغ','Amount'),inp('cl1','mf.amt',F.amt,'inputmode="decimal"'))}<div class="seg"><button class="grow" data-act="mfm" data-m="cash" aria-pressed="${F.method!=='card'}">${x('نقدًا','Cash')}</button><button class="grow" data-act="mfm" data-m="card" aria-pressed="${F.method==='card'}">${x('بطاقة','Card')}</button></div>${F.err?`<div class="err">${F.err}</div>`:''}`,'collectsave',x('تحصيل','Collect'))}
+ if(m.t==='refund'){const v=S.visits.find(v=>v.id===m.id);title=x('استرداد زيارة','Refund visit')+' R-'+v.no;inner=mform(`<div class="msg">${esc(patOf(v.pid).name)} · ${x('سيُرد','Refund')}: <b class="num">${money(vPaid(v))}</b>. ${x('الفحوصات التي لم تظهر نتيجتها تُلغى.','Lab orders without results are voided.')}</div>${fld('rf1',x('سبب الاسترداد','Reason'),inp('rf1','mf.reason',F.reason))}${F.err?`<div class="err">${F.err}</div>`:''}`,'refundsave',x('تأكيد الاسترداد','Confirm refund'))}
+ if(m.t==='return'){const s=S.sales.find(s=>s.id===m.id);title=x('مرتجع من فاتورة','Return from sale')+' PH-'+s.no;
   inner=mform(`${s.lines.map((l,i)=>{const done=sum(S.sales.filter(r=>r.ret&&r.of===s.id),r=>-sum(r.lines.filter(z=>z.medId===l.medId),z=>z.qty));const left=l.qty-done;return `<div class="row" style="justify-content:space-between"><span>${nm(medOf(l.medId))}<div class="meta">${x('المتاح للإرجاع','Returnable')}: ${left}</div></span><input class="inp num" id="rt${i}" inputmode="numeric" data-inp="mf.q${i}" value="${esc(F['q'+i]||'')}" ${left<1?'disabled':''} style="width:80px" placeholder="0"></div>`}).join('')}${F.err?`<div class="err">${F.err}</div>`:''}`,'returnsave',x('تأكيد المرتجع','Confirm return'))}
- if(m.t==='adjust'){const md=medOf(m.id);if(!md)return'';title=x('إتلاف / جرد','Write-off')+' — '+nm(md);inner=mform(`<div class="msg">${x('الكمية الحالية','In stock')}: <b class="num">${md.stock}</b></div>${fld('aj1',x('الكمية المخصومة','Quantity to remove'),inp('aj1','mf.qty',F.qty,'inputmode="numeric"'))}${fld('aj2',x('السبب','Reason'),sel('aj2','mf.reason',F.reason||'expired',[['expired',x('منتهي الصلاحية','Expired')],['damaged',x('تالف','Damaged')],['lost',x('عجز جرد','Count shortage')]]))}${F.err?`<div class="err">${F.err}</div>`:''}`,'adjustsave',x('خصم من المخزون','Remove from stock'))}
+ if(m.t==='adjust'){const md=medOf(m.id);title=x('إتلاف / جرد','Write-off')+' — '+nm(md);inner=mform(`<div class="msg">${x('الكمية الحالية','In stock')}: <b class="num">${md.stock}</b></div>${fld('aj1',x('الكمية المخصومة','Quantity to remove'),inp('aj1','mf.qty',F.qty,'inputmode="numeric"'))}${fld('aj2',x('السبب','Reason'),sel('aj2','mf.reason',F.reason||'expired',[['expired',x('منتهي الصلاحية','Expired')],['damaged',x('تالف','Damaged')],['lost',x('عجز جرد','Count shortage')]]))}${F.err?`<div class="err">${F.err}</div>`:''}`,'adjustsave',x('خصم من المخزون','Remove from stock'))}
  return `<div class="ov" data-act="closemodal" data-bg="1"><div class="modal" role="dialog" aria-modal="true" aria-label="${esc(title)}"><header>${esc(title)}<span class="grow"></span>${pr?`<button class="btn sm" data-act="printdemo">${ic('printer',14)}${x('طباعة','Print')}</button>`:''}<button class="ib" data-act="closemodal" aria-label="${x('إغلاق','Close')}">${ic('x',16)}</button></header><div class="mb">${inner}</div></div></div>`;
 }
 
@@ -870,7 +869,7 @@ const A={
  utog:a=>{const u=userOf(a.dataset.id);u.active=!u.active;log((u.active?'تفعيل ':'إيقاف ')+u.username,(u.active?'Enabled ':'Disabled ')+u.username);save();render()},
  /* reception */
  selpat:a=>{U.draft.pid=a.dataset.id;render()},clearpat:()=>{U.draft.pid=null;render()},
- newpat:()=>{U.newp=!U.newp;if(U.newp)U.np={name:'',phone:'',age:'',g:'m',blood:''};render()},
+ newpat:()=>{U.newp=!U.newp;render()},
  savepat:()=>{const n=U.np;if(!n.name.trim()||!n.phone.trim())return toast(x('اكتب الاسم والهاتف','Enter name and phone'));
   const p={id:nextPid(),name:n.name.trim(),phone:n.phone.trim(),age:+n.age||0,g:n.g||'m',addr:'',blood:n.blood||'',notes:''};S.patients.push(p);U.draft.pid=p.id;U.newp=false;U.np={name:'',phone:'',age:'',g:'m',blood:''};log('تسجيل مريض '+p.name,'Registered patient '+p.name);save();render()},
  dept:a=>{U.pdept=a.dataset.d;render()},
@@ -973,14 +972,13 @@ document.addEventListener('keydown',e=>{
   if(m&&m.stock>0&&!medState(m).expired){const c=U.cart.find(c=>c.id===m.id);if(c){if(c.qty<m.stock)c.qty++}else U.cart.push({id:m.id,qty:1});U.medq='';render();$('#medq').focus()}else toast(x('لا يوجد صنف مطابق','No matching item'))}});
 document.addEventListener('input',e=>{const t=e.target,k=t.dataset.inp;if(!k)return;
  const val=t.type==='checkbox'?t.checked:t.value;
- if(k==='res'){const o=S.orders.find(o=>o.id===U.labSel);if(!o)return;o.results[t.dataset.k]=val;save();
-  // lightweight flag update, no full re-render → keeps focus smooth
-  const p=testOf(o.testId).p.find(p=>p.k===t.dataset.k);const cell=document.getElementById('fl_'+t.dataset.k);if(cell&&p){const fl=flagOf(p,val);cell.innerHTML=fl?`<span class="fl ${fl}">${fl==='N'?x('طبيعي','Normal'):fl==='H'?x('مرتفع','High'):fl==='L'?x('منخفض','Low'):x('غير طبيعي','Abnormal')}</span>`:''}
-  return}
+ if(k==='res'){const o=S.orders.find(o=>o.id===U.labSel);o.results[t.dataset.k]=val;save();render();return}
  const i=k.indexOf('.');if(i<0)U[k]=val;else{const r=ROOT[k.slice(0,i)];if(!r)return;setPath(r(),k.slice(i+1),val)}
+ /* dependent resets */
+ if(k==='te.p'||/^te\.p\.\d+\.type$/.test(k)){}
  render()});
 document.addEventListener('change',e=>{const t=e.target,k=t.dataset.chg;if(!k)return;
- if(k==='res'){const o=S.orders.find(o=>o.id===U.labSel);if(o)o.results[t.dataset.k]=t.value}
+ if(k==='res'){S.orders.find(o=>o.id===U.labSel).results[t.dataset.k]=t.value}
  else if(k==='roster'){S.roster[t.dataset.d]=t.value;log('تغيير النوبتجية','Duty roster changed')}
  else if(k==='svcp')svcOf(t.dataset.id).price=Math.max(0,+t.value||0);
  else if(k==='svcc')svcOf(t.dataset.id).pct=Math.min(100,Math.max(0,+t.value||0));
